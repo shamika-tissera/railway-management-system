@@ -27,10 +27,6 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabel10" alignment="0" max="32767" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="register_button" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel6" alignment="0" min="-2" pref="118" max="-2" attributes="0"/>
@@ -38,40 +34,53 @@
                           <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel2" alignment="0" min="-2" pref="75" max="-2" attributes="0"/>
-                                  <Component id="jLabel8" alignment="0" min="-2" pref="75" max="-2" attributes="0"/>
+                                  <Component id="jLabel5" alignment="0" min="-2" pref="103" max="-2" attributes="0"/>
+                                  <Component id="jLabel3" alignment="0" min="-2" pref="75" max="-2" attributes="0"/>
+                                  <Component id="jLabel7" alignment="0" min="-2" pref="75" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="password" min="-2" pref="233" max="-2" attributes="0"/>
-                                  <Component id="username" min="-2" pref="233" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="lname" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="fname" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="mob_no" alignment="0" pref="394" max="32767" attributes="0"/>
                               </Group>
                           </Group>
-                          <Component id="isPriority" alignment="0" min="-2" pref="292" max="-2" attributes="0"/>
                           <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jLabel4" min="-2" pref="103" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="email" max="32767" attributes="0"/>
+                              </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel11" min="-2" pref="103" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="id_no" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel4" min="-2" pref="103" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="email" pref="233" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel5" alignment="0" min="-2" pref="103" max="-2" attributes="0"/>
-                                      <Component id="jLabel3" alignment="0" min="-2" pref="75" max="-2" attributes="0"/>
-                                      <Component id="jLabel7" alignment="0" min="-2" pref="75" max="-2" attributes="0"/>
+                                      <Component id="jLabel2" alignment="0" min="-2" pref="75" max="-2" attributes="0"/>
+                                      <Component id="jLabel8" alignment="0" min="-2" pref="75" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="lname" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="fname" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="mob_no" alignment="0" pref="233" max="32767" attributes="0"/>
+                                      <Component id="unameTakenError" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="username" pref="393" max="32767" attributes="0"/>
+                                      <Component id="password" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="isPriority" min="-2" pref="292" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="243" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="reg_success" min="-2" pref="147" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Component id="register_button" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -118,7 +127,9 @@
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="username" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+              <Component id="unameTakenError" min="-2" pref="16" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="password" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -130,7 +141,10 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="isPriority" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="register_button" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="register_button" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="reg_success" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -248,6 +262,28 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="id_noActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="unameTakenError">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="2"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="33" green="33" red="ff" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Sorry... username already taken. Please use another."/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="reg_success">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="3"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="33" green="cc" red="0" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Registration successful!"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

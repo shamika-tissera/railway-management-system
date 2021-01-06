@@ -11,16 +11,16 @@ public class Passenger extends User{
     private double credit_available;
     
     public Passenger(){
-        credit_available = 0.0;
+        credit_available = 0.0; //At the time of registration, there is no credit
     }
     
     public void setIsPriorityPassenger(boolean isPriorityCustomer){
         this.isPriorityCustomer = isPriorityCustomer;
     } 
     
-    public void register(){
+    public boolean register(){
         DB_connection reg_passenger = new DB_connection();
-        reg_passenger.registerPassenger(first_name, last_name, mobile, id, email, username, password, isPriorityCustomer );
-        
+        boolean status = reg_passenger.registerPassenger(first_name, last_name, mobile, id, email, username, password, isPriorityCustomer, credit_available );
+        return status;
     }
 }
