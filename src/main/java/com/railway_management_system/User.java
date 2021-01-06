@@ -8,13 +8,13 @@ package com.railway_management_system;
  * @author Shamika Tissera
  */
 public abstract class User {
-    private String id;
-    private String username;
-    private String password;    
-    private String first_name;
-    private String last_name;
-    private String email;
-    private String mobile;
+    protected String id;
+    protected String username;
+    protected String password;    
+    protected String first_name;
+    protected String last_name;
+    protected String email;
+    protected String mobile;
     
     public void setEmail(String email) {
         this.email = email;
