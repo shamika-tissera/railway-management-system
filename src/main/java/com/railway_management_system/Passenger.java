@@ -23,4 +23,20 @@ public class Passenger extends User{
         boolean status = reg_passenger.registerPassenger(first_name, last_name, mobile, id, email, username, password, isPriorityCustomer, credit_available );
         return status;
     }
+    
+    public boolean validatePassenger(){
+        DB_connection newConnection = new DB_connection();
+        boolean isUsernameExist = newConnection.checkUsername(username, "passenger");
+        if(isUsernameExist){
+            if(newConnection.checkPassword(password, "passenger")){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
 }
