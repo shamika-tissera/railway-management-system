@@ -20,11 +20,12 @@ public class Passenger extends User{
     
     public boolean register(){
         DB_connection reg_passenger = new DB_connection();
-        boolean status = reg_passenger.registerPassenger(first_name, last_name, mobile, id, email, username, password, isPriorityCustomer, credit_available );
+        boolean status = reg_passenger.registerPassenger(first_name, last_name, mobile, id, email, 
+                username, password, isPriorityCustomer, credit_available );
         return status;
     }
     
-    public boolean validatePassenger(){
+    public boolean validateUser(){
         DB_connection newConnection = new DB_connection();
         boolean isUsernameExist = newConnection.checkUsername(username, "passenger");
         if(isUsernameExist){

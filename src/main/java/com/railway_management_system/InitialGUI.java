@@ -156,15 +156,15 @@ public class InitialGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void unameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unameActionPerformed
-        username = uname.getText();
+        username = uname.getText().trim();
     }//GEN-LAST:event_unameActionPerformed
 
     private void passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passActionPerformed
-        password = pass.getText();
+        password = pass.getText().trim();
     }//GEN-LAST:event_passActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        PassengerRegistrationGUI newPassenger = new PassengerRegistrationGUI();
+        UserRegistrationGUI newPassenger = new UserRegistrationGUI();
         newPassenger.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -174,7 +174,7 @@ public class InitialGUI extends javax.swing.JFrame {
         Passenger passenger = new Passenger();
         passenger.setUsername(username);
         passenger.setPassword(password);
-        boolean doesPassengerExist = passenger.validatePassenger();
+        boolean doesPassengerExist = passenger.validateUser();
         if(!doesPassengerExist){
             incorrectDetails.setVisible(true);
         }
