@@ -27,21 +27,49 @@ public class AdminRegistrationGUI extends UserRegistrationGUI {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        register_button = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        register_button.setText("Register");
+        register_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                register_buttonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 637, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(581, Short.MAX_VALUE)
+                .addComponent(register_button)
+                .addGap(103, 103, 103))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 605, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(622, Short.MAX_VALUE)
+                .addComponent(register_button)
+                .addGap(72, 72, 72))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void register_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_register_buttonActionPerformed
+        performAction(evt);
+        Admin admin = new Admin();
+        admin.setFirst_name(firstName);
+        admin.setLast_name(lastName);
+        admin.setId(idNo);
+        admin.setUsername(uname);
+        admin.setPassword(pass);
+        admin.setEmail(Email);
+        admin.setMobile(mobno);
+        Registration(admin);
+    }//GEN-LAST:event_register_buttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +107,6 @@ public class AdminRegistrationGUI extends UserRegistrationGUI {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton register_button;
     // End of variables declaration//GEN-END:variables
 }

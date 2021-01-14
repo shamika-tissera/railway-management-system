@@ -13,12 +13,26 @@ public class Admin extends User{
 
     @Override
     public boolean register() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DB_connection reg_passenger = new DB_connection();
+        boolean status = reg_passenger.registerAdmin(id, password, username, username, username, email);
+        return status;
     }
 
     @Override
     public boolean validateUser() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DB_connection newConnection = new DB_connection();
+        boolean isUsernameExist = newConnection.checkUsername(username, "passenger");
+        if(isUsernameExist){
+            if(newConnection.checkPassword(password, "passenger")){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
     }
     
 }

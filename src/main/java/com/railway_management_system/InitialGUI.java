@@ -151,7 +151,20 @@ public class InitialGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+       passActionPerformed(evt);
+       unameActionPerformed(evt);
+       Admin admin = new Admin();
+       admin.setUsername(username);
+       admin.setPassword(password);
+       boolean doesAdminExist = admin.validateUser();
+       if(!doesAdminExist){
+            incorrectDetails.setVisible(true);
+       }
+       else{
+            System.out.println("Login successful");
+            AdminMainGUI enter = new AdminMainGUI(username);
+            enter.setVisible(true);
+       } 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void unameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unameActionPerformed

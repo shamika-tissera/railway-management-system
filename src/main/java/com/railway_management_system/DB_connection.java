@@ -45,6 +45,31 @@ public class DB_connection {
         return statement;
     }
     
+    protected boolean registerAdmin(String id_no, String password, String uname, String lname, 
+            String fname, String email){
+        String tableRef = "insert into `administrator` (`id_no`, `password`, `f_name`, `l_name`, `email`)";
+        String values = " values (\"" + id_no + "\", \"" + password + "\", " + "\"" 
+                + fname + "\", \"" + lname + "\", \"" + email + "\" );";
+        
+        String tableRef_1 = "insert into `administrator_id_username`(`id_no`, `username`, `administrator_id_no`)";
+        String values_2 = " values (\"" + id_no + "\", \"" + uname + "\", \"" + id_no + "\");";
+        
+        try{
+            Statement statement = establishConnection();
+            System.err.println(tableRef + values);
+            statement.executeUpdate(tableRef + values);
+            System.err.println(tableRef_1 + values_2);
+            statement.executeUpdate(tableRef_1 + values_2);
+            return false;
+        }
+        catch(SQLException e){
+            System.err.println("Administrator information storage error..." + e.getMessage());
+            String feedback = e.getMessage().substring(0, 16);
+            System.err.println(feedback);
+            return true;
+        }
+    }
+    
     protected boolean registerPassenger(String fname, String lname, String mobNo, String id, String email, 
             String uname, String password, boolean isPriority, double credit ){
         String tableRef = "insert into `railway_management_system`.`passenger`(`username`, `password`, "
