@@ -5,18 +5,29 @@
  */
 package com.railway_management_system;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Shamika Tissera
  */
 public class PassengerRegistrationGUI extends UserRegistrationGUI {
 
+    private boolean is_Priority_Passenger;
     /**
      * Creates new form PassengerRegistrationGUI
      */
     public PassengerRegistrationGUI() {
+        super();
         initComponents();
     }
+    
+    public PassengerRegistrationGUI(java.awt.event.ActionEvent evt) {
+        super(evt);
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,21 +38,98 @@ public class PassengerRegistrationGUI extends UserRegistrationGUI {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        isPriorityPassenger = new javax.swing.JCheckBox();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        register_button = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        isPriorityPassenger.setText("Register me as a priority passenger.");
+        isPriorityPassenger.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isPriorityPassengerActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Are you a regular user who wishes to use the train for at least 5 days a week (Mon-Fri) during the times 06:00 - 09:00 and ");
+
+        jLabel2.setText("17:00 - 20:00? If so, you may apply for the priority ticket.");
+
+        register_button.setText("Register");
+        register_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                register_buttonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 614, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(isPriorityPassenger, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(register_button, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 561, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(625, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(8, 8, 8)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(isPriorityPassenger)
+                        .addGap(32, 32, 32))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(register_button, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void isPriorityPassengerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isPriorityPassengerActionPerformed
+        is_Priority_Passenger = isPriorityPassenger.isSelected();
+    }//GEN-LAST:event_isPriorityPassengerActionPerformed
+
+    protected void Registration(Passenger passenger){
+        boolean reg_failed = passenger.register();
+        usernameTakenErrorDisplay(reg_failed);
+        if(!reg_failed){
+            RegistrationSuccessDisplay(true);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UserRegistrationGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    private void register_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_register_buttonActionPerformed
+        performAction(evt);
+        isPriorityPassengerActionPerformed(evt);
+        Passenger passenger = new Passenger();
+        passenger.setFirst_name(firstName);
+        passenger.setLast_name(lastName);
+        passenger.setId(idNo);
+        passenger.setUsername(uname);
+        passenger.setPassword(pass);
+        passenger.setEmail(Email);
+        passenger.setMobile(mobno);
+        passenger.setIsPriorityPassenger(is_Priority_Passenger);
+        Registration(passenger);
+    }//GEN-LAST:event_register_buttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -77,7 +165,12 @@ public class PassengerRegistrationGUI extends UserRegistrationGUI {
             }
         });
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox isPriorityPassenger;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton register_button;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,9 +7,13 @@ package com.railway_management_system;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -48,10 +52,15 @@ public class DB_connection {
         String values = "values (\"" + uname + "\", \"" + password + "\", \"" + email + "\", \"" + mobNo 
                 + "\", " + credit +  ", " + isPriority + ", \"" + fname + "\", \"" + lname + "\");";
         
+        String tableRef_1 = "insert into `passengerid-username`(`id_no`, `username`)";
+        String values_2 = " values (\"" + id + "\", \"" + uname + "\");";
+        
         try{
             Statement statement = establishConnection();
             System.err.println(tableRef + values);
             statement.executeUpdate(tableRef + values);
+            System.err.println(tableRef_1 + values_2);
+            statement.executeUpdate(tableRef_1 + values_2);
             return false;
         }
         catch(SQLException e){
@@ -98,6 +107,79 @@ public class DB_connection {
         catch(SQLException e){
             System.err.println("Password incorrect..." + e.getMessage());
             return false;//means password does not exist in the database
+        }
+    }
+    
+    //Sajee
+    
+    class Handle_Route{
+//        String dbUserName = "root";
+//        String dbPassword = "";
+//        String dbServerUrl = "jdbc:mysql://localhost:3306/railway_management_system?autoReconnect=true&useSSL=false";
+//        String dbClassPathUrl = "com.mysql.cj.jdbc.Driver";
+//        public Connection databaseConnection() {
+//        Connection conn;
+//        try {
+//            //Load Driver
+//            Class.forName(dbClassPathUrl);
+//            JOptionPane.showMessageDialog(null, "Driver Loaded");
+//            //Connect to database
+//            conn = DriverManager.getConnection(dbServerUrl, dbUserName, dbPassword);
+//            JOptionPane.showMessageDialog(null, "Connected");
+//            return conn;
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        } catch (ClassNotFoundException ex) {
+//            ex.printStackTrace();
+//        }
+//        return null;
+//
+//    }
+        
+        public int insert_info(String routeID, String source, String destination, double generalPrice, double priorityPrice, double distance){
+            int count = 0;
+            try {
+                String routeInsertSQLQuery = "INSERT INTO `route`(`route_id`, `source`, `destination`, `general_price`, `priority_price`, `distance`) "
+                        + "VALUES(\"" + routeID + "\", \"" + source + "\", \"" + destination + "\", " + generalPrice + ", " + priorityPrice + ", " + distance + " )";
+                Statement statement = establishConnection();
+                count = statement.executeUpdate(routeInsertSQLQuery);
+                
+                //PreparedStatement routePST = this.connx.prepareStatement(routeInsertSQLQuery);
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return count;
+        }
+        
+        public int updateRoute(String routeID, String source, String destination, double generalPrice, double priorityPrice, double distance){
+            int count = 0;
+            try {
+                String updateSQLQuery = "UPDATE `route` SET `source` = \"" + source + "\", " + "`destination`= \"" + destination + "\", " + "`general_price`= " + generalPrice + ", `priority_price`= " + priorityPrice + ", `distance`= " + distance + " WHERE `route_id` = \"" + routeID + "\";";
+                
+                System.out.println(updateSQLQuery);
+                
+                Statement statement = establishConnection();
+                count = statement.executeUpdate(updateSQLQuery);
+                
+                //PreparedStatement routePST = this.connx.prepareStatement(routeInsertSQLQuery);
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return count;
+        }
+        
+        public int deleteRoute(String routeID){
+            int count = 0;
+            try {
+                String deleteSQLQuery = "DELETE FROM `route` WHERE `route_id` = \"" + routeID + "\"";
+                System.out.println(deleteSQLQuery);       
+                Statement statement = establishConnection();
+                count = statement.executeUpdate(deleteSQLQuery);
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return count;
+            
         }
     }
 }

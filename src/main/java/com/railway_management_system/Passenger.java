@@ -25,6 +25,7 @@ public class Passenger extends User{
         return status;
     }
     
+    @Override
     public boolean validateUser(){
         DB_connection newConnection = new DB_connection();
         boolean isUsernameExist = newConnection.checkUsername(username, "passenger");

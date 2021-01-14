@@ -22,14 +22,44 @@ public class UserRegistrationGUI extends javax.swing.JFrame {
         unameTakenError.setVisible(false);
         reg_success.setVisible(false);
     }
-    private String firstName;
-    private String lastName;
-    private String uname;
-    private String pass;
-    private String mobno;
-    private boolean isPriorityPassenger;
-    private String Email;
-    private String idNo;
+    
+    protected void performAction(java.awt.event.ActionEvent evt){
+        unameTakenError.setVisible(false);
+        reg_success.setVisible(false);
+        reg_button_pressed(evt);
+    }
+    
+    protected void usernameTakenErrorDisplay(boolean reg_failed){
+        unameTakenError.setVisible(reg_failed);
+    }
+    
+    protected void RegistrationSuccessDisplay(boolean status){
+        reg_success.setVisible(status);
+    }
+    
+    public UserRegistrationGUI(java.awt.event.ActionEvent evt) {
+        this();
+        reg_button_pressed(evt);
+    }
+    
+    private void reg_button_pressed(java.awt.event.ActionEvent evt) {                                                
+        unameTakenError.setVisible(false);
+        fnameActionPerformed(evt);
+        lnameActionPerformed(evt);
+        mob_noActionPerformed(evt);
+        emailActionPerformed(evt);
+        usernameActionPerformed(evt);
+        passwordActionPerformed(evt);
+        id_noActionPerformed(evt);
+    }
+    
+    protected String firstName;
+    protected String lastName;
+    protected String uname;
+    protected String pass;
+    protected String mobno;
+    protected String Email;
+    protected String idNo;
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -54,10 +84,6 @@ public class UserRegistrationGUI extends javax.swing.JFrame {
         email = new javax.swing.JTextField();
         username = new javax.swing.JTextField();
         password = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        isPriority = new javax.swing.JCheckBox();
-        register_button = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         id_no = new javax.swing.JTextField();
         unameTakenError = new javax.swing.JLabel();
@@ -119,24 +145,6 @@ public class UserRegistrationGUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setText("Are you a regular user who wishes to use the train for at least 5 days a week (Mon-Fri) during the times 06:00 - 09:00 and ");
-
-        jLabel10.setText("17:00 - 20:00? If so, you may apply for the priority ticket.");
-
-        isPriority.setText("Register me as a priority passenger.");
-        isPriority.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                isPriorityActionPerformed(evt);
-            }
-        });
-
-        register_button.setText("Register");
-        register_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                register_buttonActionPerformed(evt);
-            }
-        });
-
         jLabel11.setText("ID Number :");
 
         id_no.addActionListener(new java.awt.event.ActionListener() {
@@ -160,51 +168,41 @@ public class UserRegistrationGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lname)
-                                    .addComponent(fname)
-                                    .addComponent(mob_no, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(email))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(id_no))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(35, 35, 35)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(unameTakenError)
-                                        .addComponent(username, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
-                                        .addComponent(password))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(isPriority, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(243, 243, 243))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(reg_success, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)))
-                                .addComponent(register_button)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lname)
+                            .addComponent(fname)
+                            .addComponent(mob_no, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(email))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(id_no))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(35, 35, 35)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(unameTakenError)
+                                .addComponent(username, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+                                .addComponent(password)))))
+                .addContainerGap(162, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(reg_success, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(129, 129, 129))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,7 +225,7 @@ public class UserRegistrationGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(id_no, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -243,53 +241,17 @@ public class UserRegistrationGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10)
-                .addGap(18, 18, 18)
-                .addComponent(isPriority)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(register_button)
-                    .addComponent(reg_success))
-                .addContainerGap())
+                .addGap(129, 129, 129)
+                .addComponent(reg_success))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void isPriorityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isPriorityActionPerformed
-        isPriorityPassenger = isPriority.isSelected();
-    }//GEN-LAST:event_isPriorityActionPerformed
-
-    private void fnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fnameActionPerformed
-        firstName = fname.getText().trim();
-    }//GEN-LAST:event_fnameActionPerformed
-
-    private void register_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_register_buttonActionPerformed
-        unameTakenError.setVisible(false);
-        fnameActionPerformed(evt);
-        lnameActionPerformed(evt);
-        mob_noActionPerformed(evt);
-        emailActionPerformed(evt);
-        usernameActionPerformed(evt);
-        passwordActionPerformed(evt);
-        isPriorityActionPerformed(evt);
-        id_noActionPerformed(evt);
-        
-        Passenger passenger = new Passenger();
-        passenger.setFirst_name(firstName);
-        passenger.setLast_name(lastName);
-        passenger.setId(idNo);
-        passenger.setIsPriorityPassenger(isPriorityPassenger);
-        passenger.setUsername(uname);
-        passenger.setPassword(pass);
-        passenger.setEmail(Email);
-        passenger.setMobile(mobno);
-        
+    protected void Registration(Passenger passenger){
         boolean reg_failed = passenger.register();
         unameTakenError.setVisible(reg_failed);
+        reg_success.setVisible(false);
         if(!reg_failed){
             reg_success.setVisible(true);
             try {
@@ -298,7 +260,11 @@ public class UserRegistrationGUI extends javax.swing.JFrame {
                 Logger.getLogger(UserRegistrationGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }//GEN-LAST:event_register_buttonActionPerformed
+    }
+    
+    private void fnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fnameActionPerformed
+        firstName = fname.getText().trim();
+    }//GEN-LAST:event_fnameActionPerformed
 
     private void lnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lnameActionPerformed
         lastName = lname.getText().trim();
@@ -356,7 +322,7 @@ public class UserRegistrationGUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new UserRegistrationGUI().setVisible(true);
-            }
+    }
         });
     }
 
@@ -364,9 +330,7 @@ public class UserRegistrationGUI extends javax.swing.JFrame {
     private javax.swing.JTextField email;
     private javax.swing.JTextField fname;
     private javax.swing.JTextField id_no;
-    private javax.swing.JCheckBox isPriority;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -375,12 +339,10 @@ public class UserRegistrationGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField lname;
     private javax.swing.JTextField mob_no;
     private javax.swing.JTextField password;
     private javax.swing.JLabel reg_success;
-    private javax.swing.JButton register_button;
     private javax.swing.JLabel unameTakenError;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
