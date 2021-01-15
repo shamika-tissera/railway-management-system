@@ -141,28 +141,6 @@ public class DB_connection {
     //Sajee
     
     class Handle_Route{
-//        String dbUserName = "root";
-//        String dbPassword = "";
-//        String dbServerUrl = "jdbc:mysql://localhost:3306/railway_management_system?autoReconnect=true&useSSL=false";
-//        String dbClassPathUrl = "com.mysql.cj.jdbc.Driver";
-//        public Connection databaseConnection() {
-//        Connection conn;
-//        try {
-//            //Load Driver
-//            Class.forName(dbClassPathUrl);
-//            JOptionPane.showMessageDialog(null, "Driver Loaded");
-//            //Connect to database
-//            conn = DriverManager.getConnection(dbServerUrl, dbUserName, dbPassword);
-//            JOptionPane.showMessageDialog(null, "Connected");
-//            return conn;
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        } catch (ClassNotFoundException ex) {
-//            ex.printStackTrace();
-//        }
-//        return null;
-//
-//    }
         
         public int insert_info(String routeID, String source, String destination, double generalPrice, double priorityPrice, double distance){
             int count = 0;
@@ -172,7 +150,6 @@ public class DB_connection {
                 Statement statement = establishConnection();
                 count = statement.executeUpdate(routeInsertSQLQuery);
                 
-                //PreparedStatement routePST = this.connx.prepareStatement(routeInsertSQLQuery);
             } catch (SQLException ex) {
                 Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -227,7 +204,7 @@ public class DB_connection {
                 String info_from_route_query = "SELECT general_price, route_id FROM railway_management_system.route where `source` = \"" + source + "\" and `destination` = \"" + destination + "\";";
                 
                 
-                String update_reservation_query = "INSERT INTO `reservation` (`date`, `capacity`, `bookings`, `timetable_time_slot_id`, `timetable_train_id`, `timetable_train_train_id`, `timetable_route_route_id`) VALUES ('" + date + "', '" + capacity + "', '" + count + "', '" + timetable_id + "', NULL, NULL, NULL);";
+                
                 
                 Statement statement = establishConnection();
                 //get general price and route id
@@ -253,7 +230,7 @@ public class DB_connection {
                 result = statement.executeQuery(info_from_train_query);
                 result.next();
                 capacity = result.getInt("total_capacity");
-                
+                String update_reservation_query = "INSERT INTO `reservation` (`date`, `capacity`, `bookings`, `timetable_time_slot_id`, `timetable_train_id`, `timetable_train_train_id`, `timetable_route_route_id`) VALUES ('" + date + "', '" + capacity + "', '" + count + "', '" + timetable_id + "', NULL, NULL, NULL);";
                 //update timetable_time_slot_id
                 System.out.println(update_reservation_query);
                 statement.executeUpdate(update_reservation_query);
@@ -269,11 +246,11 @@ public class DB_connection {
                 String timetable_id = null;
                 int capacity = 0;
                 double price;
-            public boolean reserve(String username, String date, int count, String source, String destination, Calendar departure){
+                public boolean reserve(String username, String date, int count, String source, String destination, Calendar departure){
             
                 String check_query = "select count(*) as \"total\" from reservation where date = \"" + date + "\";";
-                String create_query = "insert into reservation(dates, count) values (\"" + date + "\", " + count + ");";
-                String update_query = "update reservation set `count` = `count` + " + count + " where dates = \"" + date + "\";";
+                String create_query = "insert into reservation(date, bookings) values (\"" + date + "\", " + count + ");";
+                String update_query = "update reservation set `bookings` = `bookings` + " + count + " where date = \"" + date + "\";";
                       
                 
                 
@@ -290,6 +267,20 @@ public class DB_connection {
                         return status;
                     }
                     else{
+                        String get_capacity_and_count = "SELECT capacity, bookings FROM reservation WHERE date = \"" + date + "\"";
+                        rs = statement.executeQuery(get_capacity_and_count);
+                        rs.next();
+                        int count_temp = rs.getInt("bookings");
+                        
+                        int capacity_temp = rs.getInt("capacity");
+                        
+                        if ((count_temp + count) > capacity_temp) {
+                            System.out.println("count_temp = " + count_temp);
+                            System.out.println("capacity_temp = " + capacity_temp);
+                            System.out.println("count = " + count);
+                            return false;
+                        }
+                        
                         System.out.println(update_query);
                         statement.executeUpdate(update_query);
                         return true;
