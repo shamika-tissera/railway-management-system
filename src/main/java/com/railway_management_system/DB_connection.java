@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -221,28 +222,40 @@ public class DB_connection {
             String g_price;
         }
         
-        public boolean createTuple(String username, Date date, int count, String source, String destination, Time departure){
+        public boolean createTuple(String username, String date, int count, String source, String destination, Calendar departure){
             try {
                 String info_from_route_query = "SELECT general_price, route_id FROM railway_management_system.route where `source` = \"" + source + "\" and `destination` = \"" + destination + "\";";
-                String info_from_timetable_query = "SELECT DISTINCT train_id, time_slot_id FROM timetable where route_id = \"" + route_id + "\"";
-                String info_from_train_query = "SELECT total_capacity FROM train where train_id = \"" + train_id + "\"";
-                String update_reservation_query = "INSERT INTO `reservation` (`date`, `capacity`, `bookings`, `timetable_time_slot_id`, `timetable_train_id`, `timetable_train_train_id`, `timetable_route_route_id`) VALUES ('2021-01-21', '" + capacity + "', '" + count + "', '" + timetable_id + "', NULL, NULL, NULL);";
+                
+                
+                String update_reservation_query = "INSERT INTO `reservation` (`date`, `capacity`, `bookings`, `timetable_time_slot_id`, `timetable_train_id`, `timetable_train_train_id`, `timetable_route_route_id`) VALUES ('" + date + "', '" + capacity + "', '" + count + "', '" + timetable_id + "', NULL, NULL, NULL);";
                 
                 Statement statement = establishConnection();
                 //get general price and route id
+                System.out.println(info_from_route_query);
                 ResultSet result = statement.executeQuery(info_from_route_query);
+                result.next();
                 price = result.getDouble("general_price");
+                System.out.println(price);
                 route_id = result.getString("route_id");
+                System.out.println(route_id);
                 
                 //get train id
+                String info_from_timetable_query = "SELECT DISTINCT train_id, time_slot_id FROM timetable where route_route_id = \"" + route_id + "\"";
+                System.out.println(info_from_timetable_query);
                 result = statement.executeQuery(info_from_timetable_query);
+                result.next();
                 train_id = result.getString("train_id");
                 timetable_id = result.getString("time_slot_id");
                 
                 //get total capacity
-                capacity = statement.executeQuery(info_from_train_query).getInt("total_capacity");
+                String info_from_train_query = "SELECT total_capacity FROM train where train_id = \"" + train_id + "\"";
+                System.out.println(info_from_train_query);
+                result = statement.executeQuery(info_from_train_query);
+                result.next();
+                capacity = result.getInt("total_capacity");
                 
                 //update timetable_time_slot_id
+                System.out.println(update_reservation_query);
                 statement.executeUpdate(update_reservation_query);
                 return true; //operation successful
             } catch (SQLException ex) {
@@ -256,30 +269,35 @@ public class DB_connection {
                 String timetable_id = null;
                 int capacity = 0;
                 double price;
-            public boolean reserve(String username, Date date, int count, String source, String destination, Time departure){
+            public boolean reserve(String username, String date, int count, String source, String destination, Calendar departure){
             
-                String check_query = "select count(*) as \"total\" from reservations where dates = \"" + date + "\";";
-                String create_query = "insert into reservations(dates, count) values (\"" + date + "\", " + count + ");";
-                String update_query = "update reservations set `count` = `count` + " + count + " where dates = \"" + date + "\";";
+                String check_query = "select count(*) as \"total\" from reservation where date = \"" + date + "\";";
+                String create_query = "insert into reservation(dates, count) values (\"" + date + "\", " + count + ");";
+                String update_query = "update reservation set `count` = `count` + " + count + " where dates = \"" + date + "\";";
                       
                 
                 
                 try {
                     Statement statement = establishConnection();
                     //check whether there are any reservations existing for the given date
-                    int rows = statement.executeQuery(check_query).getInt("total");
-                    
+                    System.out.println(check_query);
+                    ResultSet rs = statement.executeQuery(check_query);
+                    rs.next();
+                    int rows = rs.getInt("total");
+                    System.out.println(rows);
                     if (rows == 0) {
                         boolean status = createTuple(username, date, count, source, destination, departure);
                         return status;
                     }
                     else{
+                        System.out.println(update_query);
                         statement.executeUpdate(update_query);
                         return true;
                     }
                     
                 } catch (SQLException ex) {
-                    Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println("Couldn't check query");
+                    System.err.println(ex);
                     return false;
                 }
                             

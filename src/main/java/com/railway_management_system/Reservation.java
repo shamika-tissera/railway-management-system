@@ -5,6 +5,9 @@
  */
 package com.railway_management_system;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -16,11 +19,13 @@ public class Reservation extends javax.swing.JFrame {
     private String destination;
     private int seatCount;
     private String username;
-    private Date date;
+    private String date;
     private double price;
     private String trainID;
     private String routeID;
     private int capacity;
+    private String timeslot;
+    private Calendar time = Calendar.getInstance();
 
     /**
      * Creates new form Reservation
@@ -104,6 +109,11 @@ public class Reservation extends javax.swing.JFrame {
         jLabel6.setText("Time-slot");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Morning", "Noon", "Evening", "Night" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -216,22 +226,54 @@ public class Reservation extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //get general price corresponding to the source and destination from the route table
-        
+           
         //connect to route table
         DB_connection connection = new DB_connection();
         DB_connection.Make_Reservation booking = connection.new Make_Reservation();
-        boolean status = booking.reserve(username, date, seatCount, source, destination);
+        //boolean status = booking.reserve(username, date, seatCount, source, destination);
         
         
         jTextField1ActionPerformed(evt);
         jTextField2ActionPerformed(evt);
         jTextField3ActionPerformed(evt);
-        date = jDateChooser1.getDate();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        date = formatter.format(jDateChooser1.getDate());
         
 //        DB_connection connection = new DB_connection();
 //        DB_connection.Make_Reservation booking = connection.new Make_Reservation();
-//        boolean status = booking.reserve(username, date, seatCount, source, destination);
+       boolean status = booking.reserve(username, date, seatCount, source, destination, time);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        timeslot = (String)jComboBox1.getSelectedItem();
+        
+//        These are just sample slots. We were unable to get access to the railway station API
+        switch(timeslot){
+            case "Morning":
+                time.set(Calendar.HOUR, 10);
+                time.set(Calendar.MINUTE, 00);
+                time.set(Calendar.SECOND, 00);
+                break;
+                
+            case "Noon":
+                time.set(Calendar.HOUR, 14);
+                time.set(Calendar.MINUTE, 00);
+                time.set(Calendar.SECOND, 00);
+                break;
+                
+            case "Evening":                        
+                time.set(Calendar.HOUR, 16);
+                time.set(Calendar.MINUTE, 00);
+                time.set(Calendar.SECOND, 00);
+                break;
+                
+            case "Night":
+                time.set(Calendar.HOUR, 19);
+                time.set(Calendar.MINUTE, 00);
+                time.set(Calendar.SECOND, 00);
+                break;
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
