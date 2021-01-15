@@ -188,6 +188,8 @@ public class InitialGUI extends javax.swing.JFrame {
         }
         else{
             System.out.println("Login successful");
+            PassengerMainGUI enter = new PassengerMainGUI();
+            enter.setVisible(true);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
