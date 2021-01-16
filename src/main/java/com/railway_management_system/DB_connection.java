@@ -7,10 +7,10 @@ package com.railway_management_system;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -456,6 +456,31 @@ public class DB_connection {
             } catch (SQLException ex) {
                 Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        
+        protected void updatePriorityTicket(){
+            try{
+                ArrayList<Integer> attended_ticket_id = new ArrayList<Integer>();
+                String query = "select ticket_id from `attendance` where 'attended' = 0";
+                Statement statement = establishConnection();
+                ResultSet rs = statement.executeQuery(query);
+                while(rs.next()){
+                    attended_ticket_id.add(rs.getInt("ticket_id"));
+                }
+                try{
+                    for (int i = 0; i < attended_ticket_id.size(); i++) {
+                        String update_query = "UPDATE`priority_ticket` SET num_of_times_conditions_violated = num_of_times_conditions_violated + 1 WHERE ticket_id = " + attended_ticket_id.get(i) + ";";
+                        statement.executeQuery(update_query);
+                    }
+                } catch(SQLException e){
+                    System.err.println(e + "... Problem when updating priority_ticket");
+                }                
+                
+            } catch(SQLException ex){
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
         }
     }
 }

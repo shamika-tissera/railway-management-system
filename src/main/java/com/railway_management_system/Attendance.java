@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author HP
+ * @author Nadun Udaraka
  */
 public class Attendance extends javax.swing.JFrame {
 
@@ -140,9 +140,8 @@ public class Attendance extends javax.swing.JFrame {
     }//GEN-LAST:event_RecordbtnActionPerformed
 
     private void SubmitbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitbtnActionPerformed
-        
-        
-        
+        attended.updatePriorityTicket();     
+        dispose();
     }//GEN-LAST:event_SubmitbtnActionPerformed
 
     /**
