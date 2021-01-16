@@ -7,16 +7,12 @@ package com.railway_management_system;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -46,6 +42,24 @@ public class DB_connection {
             System.err.println("Problem when fetching JDBC Driver " + e);
         }
         return statement;
+    }
+    
+    protected boolean changeState(String username){
+        try {
+            String query = "UPDATE `passenger` SET `isPriorityPassenger` = '1' WHERE `passenger`.`username` = '" + username + "';";
+            System.out.println(query);
+            Statement statement = establishConnection();
+            int rows = statement.executeUpdate(query);
+            if (rows > 0) {
+                return true;
+            }
+            else{
+                return false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
     
     protected boolean registerAdmin(String id_no, String password, String uname, String lname, 
@@ -274,8 +288,8 @@ public class DB_connection {
                 result.next();
                 price = result.getDouble("general_price");
                 System.out.println(price);
-                route_id = result.getString("route_id");
-                System.out.println(route_id);
+                this.route_id = result.getString("route_id");
+                System.out.println("route_id = " + route_id);
                 
                 //get train id
                 String info_from_timetable_query = "SELECT DISTINCT train_id, time_slot_id FROM timetable where route_route_id = \"" + route_id + "\"";
@@ -311,8 +325,6 @@ public class DB_connection {
                 String check_query = "select count(*) as \"total\" from reservation where date = \"" + date + "\";";
                 String create_query = "insert into reservation(date, bookings) values (\"" + date + "\", " + count + ");";
                 String update_query = "update reservation set `bookings` = `bookings` + " + count + " where date = \"" + date + "\";";
-                      
-                
                 
                 try {
                     Statement statement = establishConnection();
