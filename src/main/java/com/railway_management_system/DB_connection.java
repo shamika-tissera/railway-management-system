@@ -193,6 +193,29 @@ public class DB_connection {
     }
     
     class Make_Reservation{
+        General_Ticket ticket;
+        String route_id = null;
+        String train_id = null;
+        String timetable_id = null;
+        int capacity = 0;
+        double price;
+        
+        public General_Ticket getTicket(){
+            return ticket;
+        }
+        
+        private String getID(String username){
+            try {
+                String query = "SELECT `id_no` FROM `passengerid-username` WHERE `username` = \"" + username + "\"";
+                Statement statement = establishConnection();
+                ResultSet rs = statement.executeQuery(query);
+                rs.next();
+                return rs.getString("id_no");
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+        }
         
         class Reservation_Info{
             String route_ID;
@@ -241,11 +264,7 @@ public class DB_connection {
             }
         }
         
-                String route_id = null;
-                String train_id = null;
-                String timetable_id = null;
-                int capacity = 0;
-                double price;
+                
                 public boolean reserve(String username, String date, int count, String source, String destination, Calendar departure){
             
                 String check_query = "select count(*) as \"total\" from reservation where date = \"" + date + "\";";
@@ -264,6 +283,10 @@ public class DB_connection {
                     System.out.println(rows);
                     if (rows == 0) {
                         boolean status = createTuple(username, date, count, source, destination, departure);
+                        if (status) {
+                            String id_no = getID(username);
+                            General_Ticket ticket = new General_Ticket(id_no, route_id, date, source, destination, price);
+                        }
                         return status;
                     }
                     else{
@@ -283,6 +306,8 @@ public class DB_connection {
                         
                         System.out.println(update_query);
                         statement.executeUpdate(update_query);
+                        String id_no = getID(username);
+                        ticket = new General_Ticket(id_no, route_id, date, source, destination, price);
                         return true;
                     }
                     
