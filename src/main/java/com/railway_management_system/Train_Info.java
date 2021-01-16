@@ -27,8 +27,10 @@ public class Train_Info extends javax.swing.JFrame {
     String TrainID = "";
     int TotalCapacity = 0;
     int AvailableCapacity = 0;
-    String Type = "";
     String routeID = "";
+    int f_stclass = 0;
+    int s_ndclass = 0;
+    int t_rdclass = 0;
 
     Connection connx;
     DefaultTableModel model;
@@ -80,8 +82,9 @@ public class Train_Info extends javax.swing.JFrame {
                 train.setTrainiD(rs.getString("train_id"));
                 train.setTotCapacity(rs.getInt("total_capacity"));
                 train.setAvaiCapacity(rs.getInt("available_capacity"));
-                train.setRouteiD(rs.getString("route_id"));
-                train.setType(rs.getString("type"));
+                train.setF_stclass(rs.getInt("1st_class"));
+                train.setS_ndclass(rs.getInt("2nd_class"));
+                train.setT_rdclass(rs.getInt("3rd_class"));
 
                 trainLists.add(train);
             }
@@ -98,15 +101,16 @@ public class Train_Info extends javax.swing.JFrame {
         model = (DefaultTableModel) jTable1.getModel();
         //clear JTable rows
         model.setRowCount(0);
-        Object[] rows = new Object[5];
+        Object[] rows = new Object[6];
 
         //Loop through the arraylist to populate JTable
         for (int i = 0; i < dataArray.size(); i++) {
             rows[0] = dataArray.get(i).getTrainiD();
             rows[1] = dataArray.get(i).getTotCapacity();
             rows[2] = dataArray.get(i).getAvaiCapacity();
-            rows[3] = dataArray.get(i).getRouteiD();
-            rows[4] = dataArray.get(i).getType();
+            rows[3] = dataArray.get(i).getF_stclass();
+            rows[4] = dataArray.get(i).getS_ndclass();
+            rows[5] = dataArray.get(i).getT_rdclass();
             model.addRow(rows);
         }
     }
@@ -128,11 +132,9 @@ public class Train_Info extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtTrainId = new javax.swing.JTextField();
         txtTotCapacity = new javax.swing.JTextField();
-        txtRouteId = new javax.swing.JTextField();
         btnInsert = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -158,7 +160,7 @@ public class Train_Info extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Train Id", "Total Capacity", "Available Capacity", "RouteID", "Type"
+                "Train Id", "Total Capacity", "Available Capacity", "1st class", "2nd class", "3rd class"
             }
         ));
         jTable1.setGridColor(new java.awt.Color(51, 0, 51));
@@ -178,17 +180,8 @@ public class Train_Info extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tekton Pro Cond", 1, 18)); // NOI18N
         jLabel2.setText("Available Capacity : ");
 
-        jLabel3.setFont(new java.awt.Font("Tekton Pro Cond", 1, 18)); // NOI18N
-        jLabel3.setText("Route ID : ");
-
         jLabel6.setFont(new java.awt.Font("Tekton Pro Cond", 1, 18)); // NOI18N
         jLabel6.setText("Type :");
-
-        txtRouteId.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRouteIdActionPerformed(evt);
-            }
-        });
 
         btnInsert.setBackground(new java.awt.Color(153, 153, 153));
         btnInsert.setFont(new java.awt.Font("Tekton Pro Cond", 1, 18)); // NOI18N
@@ -242,15 +235,13 @@ public class Train_Info extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtRouteId)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtTrainId, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(CheckBox1stclass)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(CheckBox2ndclass)
                                 .addGap(57, 57, 57)
                                 .addComponent(CheckBox3rdclass))))
@@ -294,11 +285,7 @@ public class Train_Info extends javax.swing.JFrame {
                     .addComponent(btnUpdate))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtRouteId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(41, 41, 41)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -373,58 +360,48 @@ public class Train_Info extends javax.swing.JFrame {
         txtTrainId.setText((trainsList().get(JTableSelectedRow).getTrainiD()));
         txtTotCapacity.setText(Integer.toString(trainsList().get(JTableSelectedRow).getTotCapacity()));
         txtAvaiCapacity.setText(Integer.toString(trainsList().get(JTableSelectedRow).getAvaiCapacity()));
-        txtRouteId.setText((trainsList().get(JTableSelectedRow).getRouteiD()));
-        String type = trainsList().get(JTableSelectedRow).getType();
-        if (type.equals("1st class")) {
+        //txtRouteId.setText((trainsList().get(JTableSelectedRow).get()));
+        int type = trainsList().get(JTableSelectedRow).getF_stclass();
+        if (type == 1) {
             CheckBox1stclass.setSelected(true);
-        } else if (type.equals("2nd class")) {
+        }
+        type = trainsList().get(JTableSelectedRow).getS_ndclass();
+        if (type == 1) {
             CheckBox2ndclass.setSelected(true);
-        } else if (type.equals("3rd class")) {
+        }
+        type = trainsList().get(JTableSelectedRow).getT_rdclass();
+        if (type == 1) {
             CheckBox3rdclass.setSelected(true);
         }
-
-
+        
     }//GEN-LAST:event_jTable1MouseClicked
-
-    private void txtRouteIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRouteIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtRouteIdActionPerformed
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         TrainID = txtTrainId.getText();
         TotalCapacity = Integer.parseInt(txtTotCapacity.getText());
         AvailableCapacity = Integer.parseInt(txtAvaiCapacity.getText());
-        routeID = txtRouteId.getText();
         if (CheckBox1stclass.isSelected()) {
-            Type = "1st class";
-        } else if (CheckBox2ndclass.isSelected()) {
-            Type = "2nd class";
-        } else if (CheckBox3rdclass.isSelected()) {
-            Type = "3rd class";
+            f_stclass = 1;
+        } 
+        if (CheckBox2ndclass.isSelected()) {
+            s_ndclass = 1;
+        } 
+        if (CheckBox3rdclass.isSelected()) {
+            t_rdclass = 1;
         }
-        String trainInsertSQLQuery = "INSERT INTO `train`(`train_id`, `total_capacity`, `available_capacity`, `route_id`, `type`) VALUES  (?,?,?,?,?) ";
-
-        try {
-            PreparedStatement trainPST = this.connx.prepareStatement(trainInsertSQLQuery);
-            trainPST.setString(1, TrainID);
-            trainPST.setInt(2, TotalCapacity);
-            trainPST.setInt(3, AvailableCapacity);
-            trainPST.setString(4, routeID);
-            trainPST.setString(5, Type);
-
-            int trainInserted = trainPST.executeUpdate();
-
-            if (trainInserted > 0) {
-                JOptionPane.showMessageDialog(null, "Inserted Successfully");
-                clearAllInputFields();
-                //refresh JTable after adding new entry to mysql database
-                populateJTableFromsqlDatabase();
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        //String trainInsertSQLQuery = "INSERT INTO `train`(`train_id`, `total_capacity`, `available_capacity`, `route_id`, `type`) VALUES  (?,?,?,?,?) ";
+        
+        DB_connection connection = new DB_connection();
+        DB_connection.Handle_Train train = connection.new Handle_Train(TrainID, TotalCapacity, AvailableCapacity, routeID, f_stclass, s_ndclass, t_rdclass);
+        int trainInserted = train.insertInfo();
+        
+        if (trainInserted > 0) {
+            JOptionPane.showMessageDialog(null, "Inserted Successfully");
+            clearAllInputFields();
+            //refresh JTable after adding new entry to mysql database
+            populateJTableFromsqlDatabase();
         }
-
-
+     
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -441,45 +418,19 @@ public class Train_Info extends javax.swing.JFrame {
        // TrainID = txtTrainId.getText();
         TotalCapacity = Integer.parseInt(txtTotCapacity.getText());
         AvailableCapacity = Integer.parseInt(txtAvaiCapacity.getText());
-        routeID = txtRouteId.getText();
         if (CheckBox1stclass.isSelected()) {
-            Type = "1st class";
+            f_stclass = 1;
         } else if (CheckBox2ndclass.isSelected()) {
-            Type = "2nd class";
+            s_ndclass = 1;
         } else if (CheckBox3rdclass.isSelected()) {
-            Type = "3rd class";
+            t_rdclass = 1;
         }
-        try {
-            prestmt = dbconnection.prepareStatement(updateSQLQuery);
-            //prestmt.setString(1, TrainID);
-            prestmt.setInt(1, TotalCapacity);
-            prestmt.setInt(2, AvailableCapacity);
-            prestmt.setString(3, routeID);
-            prestmt.setString(4, Type);
-            prestmt.setString(5, TrainID);
-            
-            int trainUpdated = prestmt.executeUpdate();
-            if(trainUpdated >0){
-                JOptionPane.showMessageDialog(null, "Updated Successfully");
-                //clear Input fields
-                clearAllInputFields();
-                //refresh jTable 
-                    populateJTableFromsqlDatabase();
-            }
-            
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }finally {
-        //close PreparedStatement
-            if(prestmt != null){
-                try {
-                    prestmt.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(Train_Info.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+        
+        DB_connection connection = new DB_connection();
+        DB_connection.Handle_Train updateRow = connection.new Handle_Train(TrainID, TotalCapacity, AvailableCapacity, routeID, f_stclass, s_ndclass, t_rdclass);
+        int trainUpdated = updateRow.updateInfo();
         }
-        }
+       
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -573,7 +524,6 @@ public class Train_Info extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -582,7 +532,6 @@ public class Train_Info extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtAvaiCapacity;
-    private javax.swing.JTextField txtRouteId;
     private javax.swing.JTextField txtTotCapacity;
     private javax.swing.JTextField txtTrainId;
     // End of variables declaration//GEN-END:variables
@@ -593,7 +542,7 @@ public class Train_Info extends javax.swing.JFrame {
         txtTotCapacity.setText("");
         txtAvaiCapacity.setText("");
         buttonGroup1.clearSelection();
-        txtRouteId.setText("");
+
 
     }
 

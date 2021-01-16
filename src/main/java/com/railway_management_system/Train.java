@@ -14,8 +14,9 @@ public class Train {
     private String TrainiD;
     private int TotCapacity;
     private int AvaiCapacity;
-    private String RouteiD;
-    private String type;
+    int f_stclass = 0;
+    int s_ndclass = 0;
+    int t_rdclass = 0;
     
     //constructor
 
@@ -51,22 +52,29 @@ public class Train {
         this.AvaiCapacity = AvaiCapacity;
     }
 
-    public String getRouteiD() {
-        return RouteiD;
+    public int getF_stclass() {
+        return f_stclass;
     }
 
-    public void setRouteiD(String RouteiD) {
-        this.RouteiD = RouteiD;
+    public void setF_stclass(int f_stclass) {
+        this.f_stclass = f_stclass;
     }
 
-    public String getType() {
-        return type;
+    public int getS_ndclass() {
+        return s_ndclass;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setS_ndclass(int s_ndclass) {
+        this.s_ndclass = s_ndclass;
     }
     
+    public int getT_rdclass() {
+        return t_rdclass;
+    }
+
+    public void setT_rdclass(int t_rdclass) {
+        this.t_rdclass = t_rdclass;
+    }
     
     }
 

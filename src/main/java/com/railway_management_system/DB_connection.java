@@ -7,6 +7,7 @@ package com.railway_management_system;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -203,7 +204,49 @@ public class DB_connection {
     }
     
     class Handle_Train{
+        String TrainID; 
+        int totalCapacity; 
+        int availableCapacity;
+        String routeID;
+        int f_class;
+        int s_class;
+        int t_class;
         
+        public Handle_Train(String TrainID, int totalCapacity, int availableCapacity, String routeID, int f_class, int s_class, int t_class){
+            this.TrainID = TrainID;
+            this.availableCapacity = availableCapacity;
+            this.routeID = routeID;
+            this.totalCapacity = totalCapacity;
+            this.f_class = f_class;
+            this.s_class = s_class;
+            this.t_class = t_class;
+        }
+        
+        protected int insertInfo(){
+            try {
+                String trainInsertSQLQuery = "INSERT INTO `train`(`train_id`, `total_capacity`, `available_capacity`, `1st_class`, `2nd_class`, `3rd_class`) ";
+                String values = "values ('" + TrainID + "', " + totalCapacity + ", " + availableCapacity + ", " + f_class + ", " + s_class + ", " + t_class + ");";
+                Statement statement = establishConnection();
+                int rows = statement.executeUpdate(trainInsertSQLQuery + values);
+                return rows;
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+                return 0;
+            }
+        }
+        
+        protected int updateInfo(){
+            try {
+                String updateSQLQuery = "UPDATE `train` SET `total_capacity`=" + totalCapacity +  ",`available_capacity`= " + availableCapacity + ",`route_id`= " + routeID + ",`1st_class`= " + f_class + ", `2nd_class`= " + s_class + ", `3rd_class`= " + t_class + "WHERE `train_id` = '" + TrainID + "';";
+                
+                Statement statement = establishConnection();
+                int count = statement.executeUpdate(updateSQLQuery);
+                return count;
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+                return 0;
+            }
+        }
     }
     
     class Make_Reservation{
@@ -374,5 +417,45 @@ public class DB_connection {
                             
         }
         
+    }
+    
+    protected class Handle_Attendance{
+        protected void beginSession(){
+            try {
+                String query = "INSERT INTO `attendance` (`ticket_id`) SELECT `ticket_id` FROM `priority_ticket`";
+                Statement statement = establishConnection();
+                statement.executeUpdate(query);
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        protected boolean markAttendance(int ticket_id){
+            try {
+                String query = "UPDATE `attendance` SET attended = 1 WHERE ticket_id = " + ticket_id + ";";
+                Statement statement = establishConnection();
+                int rows = statement.executeUpdate(query);
+                
+                if (rows > 0) {
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        }
+        
+        protected void terminateSession(){
+            try {
+                String query = "TRUNCATE TABLE `attendance`";
+                Statement statement = establishConnection();
+                statement.executeUpdate(query);
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }

@@ -111,16 +111,22 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="5" rowCount="0">
+                  <Table columnCount="6" rowCount="0">
                     <Column editable="true" title="Train Id" type="java.lang.Object"/>
                     <Column editable="true" title="Total Capacity" type="java.lang.Object"/>
                     <Column editable="true" title="Available Capacity" type="java.lang.Object"/>
-                    <Column editable="true" title="RouteID" type="java.lang.Object"/>
-                    <Column editable="true" title="Type" type="java.lang.Object"/>
+                    <Column editable="true" title="1st class" type="java.lang.Object"/>
+                    <Column editable="true" title="2nd class" type="java.lang.Object"/>
+                    <Column editable="true" title="3rd class" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
@@ -180,16 +186,14 @@
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="jLabel6" alignment="1" min="-2" pref="105" max="-2" attributes="0"/>
-                                  <Component id="jLabel3" alignment="1" min="-2" pref="105" max="-2" attributes="0"/>
                                   <Component id="jLabel7" alignment="1" min="-2" pref="105" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="txtRouteId" alignment="0" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="txtTrainId" alignment="1" min="-2" pref="382" max="-2" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Component id="CheckBox1stclass" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <EmptySpace min="-2" max="-2" attributes="0"/>
                                       <Component id="CheckBox2ndclass" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
                                       <Component id="CheckBox3rdclass" min="-2" max="-2" attributes="0"/>
@@ -250,12 +254,7 @@
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtRouteId" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel3" alignment="0" min="-2" pref="29" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel6" min="-2" pref="29" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -292,14 +291,6 @@
                 <Property name="text" type="java.lang.String" value="Available Capacity : "/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel3">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tekton Pro Cond" size="18" style="1"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Route ID : "/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JLabel" name="jLabel6">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -311,11 +302,6 @@
             <Component class="javax.swing.JTextField" name="txtTrainId">
             </Component>
             <Component class="javax.swing.JTextField" name="txtTotCapacity">
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtRouteId">
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtRouteIdActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnInsert">
               <Properties>
