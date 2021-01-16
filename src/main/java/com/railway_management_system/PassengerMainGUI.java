@@ -348,7 +348,7 @@ public class PassengerMainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Reservation booking = new Reservation();
+        Reservation booking = new Reservation(username);
         booking.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 

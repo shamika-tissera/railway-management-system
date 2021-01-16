@@ -335,7 +335,7 @@ public class DB_connection {
                 System.out.println("route_id = " + route_id);
                 
                 //get train id
-                String info_from_timetable_query = "SELECT DISTINCT train_id, time_slot_id FROM timetable where route_route_id = \"" + route_id + "\"";
+                String info_from_timetable_query = "SELECT DISTINCT train_id, time_slot_id FROM timetable where route_id = \"" + route_id + "\"";
                 System.out.println(info_from_timetable_query);
                 result = statement.executeQuery(info_from_timetable_query);
                 result.next();
@@ -480,6 +480,15 @@ public class DB_connection {
                 Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
             }
             
+            
+        }
+    }
+    
+    protected class Handle_Record{
+        String note;
+        
+        protected int insertRecord(){
+
             
         }
     }
