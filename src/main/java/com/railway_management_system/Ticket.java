@@ -16,6 +16,8 @@ public abstract class Ticket {
     String source; 
     String destination; 
     double price;
+    String ticket_id;
+    
     public Ticket(String id_no, String routeID, String date, String source, String destination, double price){
         this.date = date;
         this.destination = destination;

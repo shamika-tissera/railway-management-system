@@ -25,6 +25,7 @@ public class Reservation extends javax.swing.JFrame {
     private String routeID;
     private int capacity;
     private String timeslot;
+    General_Ticket ticket;
     private Calendar time = Calendar.getInstance();
 
     /**
@@ -128,6 +129,7 @@ public class Reservation extends javax.swing.JFrame {
 
         jLabel15.setText("Destination");
 
+        jTextField5.setEditable(false);
         jTextField5.setText("jTextField5");
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,16 +137,22 @@ public class Reservation extends javax.swing.JFrame {
             }
         });
 
+        jTextField6.setEditable(false);
         jTextField6.setText("jTextField5");
 
+        jTextField7.setEditable(false);
         jTextField7.setText("jTextField5");
 
+        jTextField8.setEditable(false);
         jTextField8.setText("jTextField5");
 
+        jTextField9.setEditable(false);
         jTextField9.setText("jTextField5");
 
+        jTextField10.setEditable(false);
         jTextField10.setText("jTextField5");
 
+        jTextField11.setEditable(false);
         jTextField11.setText("jTextField5");
 
         jButton3.setText("jButton3");
@@ -226,9 +234,9 @@ public class Reservation extends javax.swing.JFrame {
                 .addGroup(jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addGap(34, 34, 34)
                 .addGroup(jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -429,10 +437,17 @@ public class Reservation extends javax.swing.JFrame {
 //        DB_connection connection = new DB_connection();
 //        DB_connection.Make_Reservation booking = connection.new Make_Reservation();
        boolean success = booking.reserve(username, date, seatCount, source, destination, time);
+       
+       
+       
         if (success) {
             jLabel7.setText("Your seat(s) have been reserved!");
             jDialog1.setVisible(true);
-            Ticket ticket;
+            
+            //generate ticket
+            
+            
+            ticket = booking.getTicket();
         }
         else{
             jLabel7.setText("Sorry... All seats are reserved.");
@@ -473,6 +488,18 @@ public class Reservation extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         jDialog1.setVisible(false);
+        jDialog2.setVisible(true);
+        try{
+            System.out.println("ticket.source : " + ticket.source);
+        jTextField9.setText(ticket.id_no);
+        jTextField6.setText(ticket.routeID);
+        jTextField7.setText(ticket.date);
+        jTextField8.setText(ticket.source);
+        jTextField10.setText(ticket.destination);
+        jTextField11.setText(Double.toString(ticket.price)); 
+        } catch(NullPointerException e){
+            System.err.println(e);
+        }       
         
     }//GEN-LAST:event_jButton2ActionPerformed
 

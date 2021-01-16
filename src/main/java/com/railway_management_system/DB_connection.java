@@ -197,17 +197,55 @@ public class DB_connection {
         String route_id = null;
         String train_id = null;
         String timetable_id = null;
+        String username;
         int capacity = 0;
         double price;
+        String date;
+        String source;
+        String destination;
         
         public General_Ticket getTicket(){
-            return ticket;
+            try {
+                //get ticket_id
+                //make sure username is defined in the passenger table
+                System.out.println("date : " + date);
+                String query = "SELECT ticket_id FROM `general_ticket` WHERE username = \"" + username + "\" and date = \"" + date + "\"";
+                Statement statement = establishConnection();
+                ResultSet rs = statement.executeQuery(query);
+                rs.next();
+                System.out.println("rs.getString(\"ticket_id\") : " + rs.getString("ticket_id"));
+                String ticketID = rs.getString("ticket_id");
+                ticket.ticket_id = ticketID;
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+                
+            }finally{
+                return ticket;
+                
+            }          
+            
         }
         
-        private String getID(String username){
+        private void updateDB(Ticket ticket){
             try {
+                System.out.println("username : " + username);
+                String query = "INSERT INTO `general_ticket` (`ticket_id`, `payment_method`, `source`, `destination`, `price`, `date`, `route_route_id`, `username`) VALUES (NULL, 'card', '" + source + "', '" + destination + "', '" + price + "', '" + date + "', '" + route_id + "', '" + username + "');";
+                Statement statement = establishConnection();
+                System.out.println(query);
+                statement.executeUpdate(query);
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        private String getID(String username){          
+            
+            try {
+                               
                 String query = "SELECT `id_no` FROM `passengerid-username` WHERE `username` = \"" + username + "\"";
                 Statement statement = establishConnection();
+                System.out.println(query);
                 ResultSet rs = statement.executeQuery(query);
                 rs.next();
                 return rs.getString("id_no");
@@ -266,7 +304,10 @@ public class DB_connection {
         
                 
                 public boolean reserve(String username, String date, int count, String source, String destination, Calendar departure){
-            
+                this.date = date;    
+                this.destination = destination;
+                this.username = username;
+                this.source = source;
                 String check_query = "select count(*) as \"total\" from reservation where date = \"" + date + "\";";
                 String create_query = "insert into reservation(date, bookings) values (\"" + date + "\", " + count + ");";
                 String update_query = "update reservation set `bookings` = `bookings` + " + count + " where date = \"" + date + "\";";
@@ -286,6 +327,7 @@ public class DB_connection {
                         if (status) {
                             String id_no = getID(username);
                             General_Ticket ticket = new General_Ticket(id_no, route_id, date, source, destination, price);
+                            updateDB(ticket);
                         }
                         return status;
                     }
@@ -308,6 +350,7 @@ public class DB_connection {
                         statement.executeUpdate(update_query);
                         String id_no = getID(username);
                         ticket = new General_Ticket(id_no, route_id, date, source, destination, price);
+                        updateDB(ticket);
                         return true;
                     }
                     
