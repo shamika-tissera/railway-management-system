@@ -484,12 +484,27 @@ public class DB_connection {
         }
     }
     
-    protected class Handle_Record{
+    public class Handle_Record{
         String note;
+        String username;
+        String date;
         
-        protected int insertRecord(){
-
-            
+        public Handle_Record(String note, String username, String date){
+            this.date = date;
+            this.note = note;
+            this.username = username;
+        }
+        
+        public int insertRecord(){
+            try {
+                String query = "INSERT INTO `manipulates` (`username`, `date`, `note`, `administrator_id_username_id_no`, `administrator_id_username_administrator_id_no`) VALUES ('test2', '2021-01-17', '" + note + "');";
+                Statement statement = establishConnection();
+                int count = statement.executeUpdate(query);
+                return count;
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+                return 0;
+            }
         }
     }
 }

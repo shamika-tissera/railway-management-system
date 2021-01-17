@@ -1,10 +1,12 @@
 
+import com.railway_management_system.DB_connection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -351,30 +353,24 @@ public class Record extends javax.swing.JFrame {
 
     private void btnAddUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUpdateActionPerformed
         UserName = txtname.getText();
-      //  Date = txtdate.getText();
+        Date dat = jDateChooser1.getDate();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date = simpleDateFormat.format(dat);
         Note = txtAreaNotes.getText();
         
-        String recordInsertSQLQuery = "INSERT INTO `manipulates`(`username`, `date`, `note`) VALUES  (?,?,?) ";
-
-        try {
-            PreparedStatement trainPST = this.connx.prepareStatement(recordInsertSQLQuery);
-            trainPST.setString(1, UserName);
-         //   trainPST.setInt(2, da);
-            trainPST.setString(3, Note);
+        DB_connection connection = new DB_connection();
+        DB_connection.Handle_Record record = connection.new Handle_Record(Note, UserName, date);       
+        
           
-            int trainInserted = trainPST.executeUpdate();
+        int trainInserted = record.insertRecord();
 
-            if (trainInserted > 0) {
-                JOptionPane.showMessageDialog(null, "Record Added Successfully");
-                clearAllInputFields();
-                //refresh JTable after adding new entry to mysql database
-                populateJTableFromsqlDatabase();
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        if (trainInserted > 0) {
+            JOptionPane.showMessageDialog(null, "Record Added Successfully");
+            clearAllInputFields();
+            //refresh JTable after adding new entry to mysql database
+            populateJTableFromsqlDatabase();
         }
-         
-
+  
     }//GEN-LAST:event_btnAddUpdateActionPerformed
 
     private void btnDeleteUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUpdateActionPerformed
