@@ -10,12 +10,18 @@ package com.railway_management_system;
  * @author Shamika Tissera
  */
 public class AdminRegistrationGUI extends UserRegistrationGUI {
-
+    AdminMainGUI inst;
+    String username;
     /**
      * Creates new form AdminRegistrationGUI
      */
     public AdminRegistrationGUI() {
         initComponents();
+    }
+    public AdminRegistrationGUI(String username, AdminMainGUI inst) {
+        this();
+        this.username = username;
+        this.inst = inst;
     }
 
     /**
@@ -69,6 +75,10 @@ public class AdminRegistrationGUI extends UserRegistrationGUI {
         admin.setEmail(Email);
         admin.setMobile(mobno);
         Registration(admin);
+        
+        AdminMainGUI returns = new AdminMainGUI(username);
+        returns.setVisible(true);
+        dispose();
     }//GEN-LAST:event_register_buttonActionPerformed
 
     /**

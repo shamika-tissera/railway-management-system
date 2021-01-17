@@ -6,13 +6,9 @@
 package com.railway_management_system;
 
 //import static com.railway_management_system.DBConnection.getDBConnection;
-import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -30,12 +26,20 @@ public class Attendance extends javax.swing.JFrame {
     Statement stmt = null;
     ResultSet rs = null;
     DB_connection.Handle_Attendance attended;
+    private AdminMainGUI inst;
+    private String username;
     
     public Attendance() {
         initComponents();
         DB_connection connection = new DB_connection();
         attended = connection.new Handle_Attendance();
         attended.beginSession();
+    }
+    
+    public Attendance(String username, AdminMainGUI inst) {
+        this();
+        this.inst = inst;
+        this.username = username;
     }
 
     /**
@@ -52,6 +56,7 @@ public class Attendance extends javax.swing.JFrame {
         ticketnumberbox = new javax.swing.JTextField();
         Recordbtn = new javax.swing.JButton();
         Submitbtn = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,6 +84,13 @@ public class Attendance extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Back");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -95,10 +107,13 @@ public class Attendance extends javax.swing.JFrame {
                         .addComponent(jLabel1)))
                 .addContainerGap(19, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 196, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(Recordbtn)
-                    .addComponent(Submitbtn))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Submitbtn)))
                 .addGap(62, 62, 62))
         );
         layout.setVerticalGroup(
@@ -113,7 +128,9 @@ public class Attendance extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addComponent(Recordbtn)
                 .addGap(63, 63, 63)
-                .addComponent(Submitbtn)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Submitbtn)
+                    .addComponent(jButton1))
                 .addContainerGap(82, Short.MAX_VALUE))
         );
 
@@ -140,9 +157,18 @@ public class Attendance extends javax.swing.JFrame {
     }//GEN-LAST:event_RecordbtnActionPerformed
 
     private void SubmitbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitbtnActionPerformed
+        attended.removeUsersWhoCancelledReservations();       
+        
         attended.updatePriorityTicket();     
+        AdminMainGUI returns = new AdminMainGUI();
+        returns.setVisible(true);
         dispose();
     }//GEN-LAST:event_SubmitbtnActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        inst.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -186,6 +212,7 @@ public class Attendance extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Recordbtn;
     private javax.swing.JButton Submitbtn;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField ticketnumberbox;

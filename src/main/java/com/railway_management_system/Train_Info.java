@@ -31,7 +31,8 @@ public class Train_Info extends javax.swing.JFrame {
     int f_stclass = 0;
     int s_ndclass = 0;
     int t_rdclass = 0;
-
+    String username;
+    AdminMainGUI inst;
     Connection connx;
     DefaultTableModel model;
 
@@ -43,6 +44,12 @@ public class Train_Info extends javax.swing.JFrame {
         connx = databaseConnection();
         //populating jTable
         populateJTableFromsqlDatabase();
+    }
+    
+    public Train_Info(String username, AdminMainGUI inst){
+        this();
+        this.username = username;
+        this.inst = inst;
     }
 
     public Connection databaseConnection() {
@@ -144,6 +151,7 @@ public class Train_Info extends javax.swing.JFrame {
         CheckBox2ndclass = new javax.swing.JCheckBox();
         CheckBox3rdclass = new javax.swing.JCheckBox();
         btnClear = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -305,6 +313,13 @@ public class Train_Info extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("BACK");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -321,6 +336,8 @@ public class Train_Info extends javax.swing.JFrame {
                 .addContainerGap(40, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(18, 18, 18)
                 .addComponent(btnClear)
                 .addGap(67, 67, 67))
         );
@@ -334,7 +351,9 @@ public class Train_Info extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
-                .addComponent(btnClear)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnClear)
+                    .addComponent(jButton1))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
@@ -478,6 +497,12 @@ public class Train_Info extends javax.swing.JFrame {
         clearAllInputFields();
     }//GEN-LAST:event_btnClearActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        AdminMainGUI returns = new AdminMainGUI();
+        returns.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -522,6 +547,7 @@ public class Train_Info extends javax.swing.JFrame {
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnUpdate;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;

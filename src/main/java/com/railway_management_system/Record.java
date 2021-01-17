@@ -1,13 +1,8 @@
+package com.railway_management_system;
 
-import com.railway_management_system.DB_connection;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -22,89 +17,105 @@ import javax.swing.table.DefaultTableModel;
  * @author Sajee Thamanga
  */
 public class Record extends javax.swing.JFrame {
-
+    AdminMainGUI inst = null;
     String dbUserName = "root";
     String dbPassword = "";
     String dbServerUrl = "jdbc:mysql://localhost:3306/railway_management_system?autoReconnect=true&useSSL=false";
     String dbClassPathUrl = "com.mysql.jdbc.Driver";
 
-    String UserName = "";
+    String UserName = null;
     Date update;
     String Note = "";
 
     Connection connx;
     DefaultTableModel model;
+    String nextForm;
+    
+//    public Record(String nextForm){
+//        this();
+//        this.nextForm = nextForm;
+//    }
+    
+    public Record(String nextForm, String username, AdminMainGUI inst){
+        this();
+        this.nextForm = nextForm;
+        this.UserName = username;
+        this.inst = inst;
+        txtname.setEditable(false);
+        txtname.setText(UserName);
+    }
+
 
     public Record() {
         initComponents();
-         connx = databaseConnection();
+//         connx = databaseConnection();
         //populating jTable
-        populateJTableFromsqlDatabase();
+//        populateJTableFromsqlDatabase();
     }
 
-    public Connection databaseConnection() {
-        Connection conn;
-        try {
-            //Load Driver
-            Class.forName(dbClassPathUrl);
-            JOptionPane.showMessageDialog(null, "Driver Loaded");
-            //Connect to database
-            conn = DriverManager.getConnection(dbServerUrl, dbUserName, dbPassword);
-            JOptionPane.showMessageDialog(null, "Connected");
-            return conn;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
+//    public Connection databaseConnection() {
+//        Connection conn;
+//        try {
+//            //Load Driver
+//            Class.forName(dbClassPathUrl);
+//            JOptionPane.showMessageDialog(null, "Driver Loaded");
+//            //Connect to database
+//            conn = DriverManager.getConnection(dbServerUrl, dbUserName, dbPassword);
+//            JOptionPane.showMessageDialog(null, "Connected");
+//            return conn;
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        } catch (ClassNotFoundException ex) {
+//            ex.printStackTrace();
+//        }
+//        return null;
+//    }
 
     //store database results in ArrayList Method
 
-    public ArrayList<RecordUpdate> recordsList() {
-        ArrayList<RecordUpdate> recordLists = new ArrayList<RecordUpdate>();
-        String selectAllSQLQuery = "SELECT * FROM `manipulates`";
-        Statement stmt;
-        ResultSet rs;
-
-        try {
-            stmt = connx.createStatement();
-            rs = stmt.executeQuery(selectAllSQLQuery);
-
-            //loop through the results"
-            while (rs.next()) {
-                RecordUpdate ru = new RecordUpdate();
-                //populate rupdate Setters
-                ru.setUsername(rs.getString("`username`"));
-                ru.setNote(rs.getString("`note`"));
-
-                recordLists.add(ru);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-
-        return recordLists;
-    }
+//    public ArrayList<RecordUpdate> recordsList() {
+//        ArrayList<RecordUpdate> recordLists = new ArrayList<RecordUpdate>();
+//        String selectAllSQLQuery = "SELECT * FROM `manipulates`";
+//        Statement stmt;
+//        ResultSet rs;
+//
+//        try {
+//            stmt = connx.createStatement();
+//            rs = stmt.executeQuery(selectAllSQLQuery);
+//
+//            //loop through the results"
+//            while (rs.next()) {
+//                RecordUpdate ru = new RecordUpdate();
+//                //populate rupdate Setters
+//                ru.setUsername(rs.getString("`username`"));
+//                ru.setNote(rs.getString("`note`"));
+//
+//                recordLists.add(ru);
+//            }
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
+//
+//        return recordLists;
+//    }
 
     //Populate JTable with data from database
-    public void populateJTableFromsqlDatabase() {
-        ArrayList<RecordUpdate> dataArray = recordsList();
-        model = (DefaultTableModel) jTable1.getModel();
-        //clear JTable rows
-        model.setRowCount(0);
-        Object[] rows = new Object[3];
-
-        //Loop through the arraylist to populate JTable
-        for (int i = 0; i < dataArray.size(); i++) {
-            rows[0] = dataArray.get(i).getUsername();
-            rows[1] = dataArray.get(i).getDate();
-            rows[2] = dataArray.get(i).getNote();
-
-            model.addRow(rows);
-        }
-    }
+//    public void populateJTableFromsqlDatabase() {
+////        ArrayList<RecordUpdate> dataArray = recordsList();
+////        model = (DefaultTableModel) jTable1.getModel();
+//        //clear JTable rows
+//        model.setRowCount(0);
+//        Object[] rows = new Object[3];
+//
+//        //Loop through the arraylist to populate JTable
+//        for (int i = 0; i < dataArray.size(); i++) {
+//            rows[0] = dataArray.get(i).getUsername();
+//            rows[1] = dataArray.get(i).getDate();
+//            rows[2] = dataArray.get(i).getNote();
+//
+//            model.addRow(rows);
+//        }
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -117,11 +128,7 @@ public class Record extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        btnEditUpdate = new javax.swing.JButton();
         btnAddUpdate = new javax.swing.JButton();
-        btnDeleteUpdate = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -131,6 +138,7 @@ public class Record extends javax.swing.JFrame {
         txtAreaNotes = new javax.swing.JTextArea();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         btnClear = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -139,44 +147,13 @@ public class Record extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tekton Pro Cond", 1, 36)); // NOI18N
         jLabel1.setText("Record Update");
 
-        btnEditUpdate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnEditUpdate.setText("Edit Update");
-        btnEditUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditUpdateActionPerformed(evt);
-            }
-        });
-
         btnAddUpdate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnAddUpdate.setText("Add Update");
+        btnAddUpdate.setText("Submit");
         btnAddUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddUpdateActionPerformed(evt);
             }
         });
-
-        btnDeleteUpdate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnDeleteUpdate.setText("Delete Update");
-        btnDeleteUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteUpdateActionPerformed(evt);
-            }
-        });
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Number", "Username", "Date", "Notes"
-            }
-        ));
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
 
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -245,6 +222,13 @@ public class Record extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Back");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -257,15 +241,12 @@ public class Record extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 573, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnAddUpdate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnDeleteUpdate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnEditUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnAddUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnClear)))
@@ -274,22 +255,18 @@ public class Record extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jLabel1)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(109, 109, 109)
-                        .addComponent(btnAddUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnEditUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnDeleteUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(58, 58, 58)
+                        .addComponent(btnAddUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
                 .addComponent(btnClear)
                 .addGap(24, 24, 24))
         );
@@ -309,48 +286,6 @@ public class Record extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEditUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUpdateActionPerformed
-
-        Connection dbconnection = null;
-        PreparedStatement prestmt = null;
-        String updateSQLQuery = "UPDATE `manipulates` SET `username`=?,`date`=?,`note`=? WHERE `train_id` = ? ";
-        dbconnection = this.connx;
-        
-        String username = txtname.getText();
-      //  Date update = txtdate.getDate();
-        String notes = txtAreaNotes.getText();
-        
-         try {
-            prestmt = dbconnection.prepareStatement(updateSQLQuery);
-           
-            prestmt.setString(1, UserName);
-           // prestmt.setDate(2, );
-            prestmt.setString(3, Note);
-                       
-            int recordUpdated = prestmt.executeUpdate();
-            if(recordUpdated >0){
-                JOptionPane.showMessageDialog(null, "Record Edited Successfully");
-                //clear Input fields
-                clearAllInputFields();
-                //refresh jTable 
-                    populateJTableFromsqlDatabase();
-            }
-            
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }finally {
-        //close PreparedStatement
-            if(prestmt != null){
-                try {
-                    prestmt.close();
-                } catch (SQLException ex) {
-                   ex.printStackTrace();
-                }
-            }
-        }
-        
-    }//GEN-LAST:event_btnEditUpdateActionPerformed
-
     private void btnAddUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUpdateActionPerformed
         UserName = txtname.getText();
         Date dat = jDateChooser1.getDate();
@@ -368,56 +303,55 @@ public class Record extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Record Added Successfully");
             clearAllInputFields();
             //refresh JTable after adding new entry to mysql database
-            populateJTableFromsqlDatabase();
+//            populateJTableFromsqlDatabase();
+        }
+        
+        switch(nextForm){
+            case "reservation":
+                Reservation reserve = new Reservation(UserName, inst, true);
+                reserve.setVisible(true);
+                dispose();
+                break;
+                
+            case "attendance":
+                Attendance attend = new Attendance(UserName, inst);
+                attend.setVisible(true);
+                dispose();
+                break;
+                
+            case "train":
+                Train_Info train = new Train_Info();
+                train.setVisible(true);
+                dispose();
+                break;
+                
+            case "passenger":
+                PassengerRegistrationGUI passenger = new PassengerRegistrationGUI();
+                passenger.setVisible(true);
+                dispose();
+                break;
+                
+            case "administrator":
+                AdminRegistrationGUI admin = new AdminRegistrationGUI();
+                admin.setVisible(true);
+                dispose();
+                break;   
+                
+            case "timetable":
+                UpdateTimetable timetable = new UpdateTimetable();
+                timetable.setVisible(true);
+                dispose();
+                break;
+                
+            case "route":
+                Route_Info route = new Route_Info();
+                route.setVisible(true);
+                dispose();
+                break;
+
         }
   
     }//GEN-LAST:event_btnAddUpdateActionPerformed
-
-    private void btnDeleteUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUpdateActionPerformed
-            Connection dbConnection = null;
-            PreparedStatement pstmt = null;
-            String deleteSQLQuery = "DELETE FROM `manipulates` WHERE `username` = ? ";
- try {
-                dbConnection = this.connx;
-                pstmt = dbConnection.prepareStatement(deleteSQLQuery);
-                pstmt.setInt(1, Integer.parseInt(txtname.getText()));
-                int deletestmt = pstmt.executeUpdate();
-
-                if (deletestmt > 0) {
-                    JOptionPane.showMessageDialog(null, "Deleted Successfully!!");
-                    //clear Input fields after deleting
-                    clearAllInputFields();
-                    //refresh jTable to remove deleted row
-                    populateJTableFromsqlDatabase();
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            } finally {
-                //close connection
-                try {
-                    if (pstmt != null) {
-                        pstmt.close();
-                    }
-
-                    if (dbConnection != null) {
-                        dbConnection.close();
-                    }
-                } catch (SQLException sQLException) {
-                    sQLException.getMessage();
-                }
-            }
-
-    }//GEN-LAST:event_btnDeleteUpdateActionPerformed
-
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        //Display selected row on input fields
-        int JTableSelectedRow = jTable1.getSelectedRow();
-
-        txtname.setText((recordsList().get(JTableSelectedRow).getUsername()));
-       // txtdate.setText((recordsList().get(JTableSelectedRow).getTotCapacity()));
-        txtAreaNotes.setText((recordsList().get(JTableSelectedRow).getNote()));
-        
-    }//GEN-LAST:event_jTable1MouseClicked
 
     private void txtnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnameActionPerformed
         // TODO add your handling code here:
@@ -427,6 +361,12 @@ public class Record extends javax.swing.JFrame {
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         clearAllInputFields();
     }//GEN-LAST:event_btnClearActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        AdminMainGUI returns = new AdminMainGUI(UserName);
+        returns.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -466,8 +406,7 @@ public class Record extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddUpdate;
     private javax.swing.JButton btnClear;
-    private javax.swing.JButton btnDeleteUpdate;
-    private javax.swing.JButton btnEditUpdate;
+    private javax.swing.JButton jButton1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -475,9 +414,7 @@ public class Record extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea txtAreaNotes;
     private javax.swing.JTextField txtname;
     // End of variables declaration//GEN-END:variables

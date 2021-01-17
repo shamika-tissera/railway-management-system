@@ -21,9 +21,9 @@ public class Admin extends User{
     @Override
     public boolean validateUser() {
         DB_connection newConnection = new DB_connection();
-        boolean isUsernameExist = newConnection.checkUsername(username, "passenger");
+        boolean isUsernameExist = newConnection.checkUsername(username, "administrator");
         if(isUsernameExist){
-            if(newConnection.checkPassword(password, "passenger")){
+            if(newConnection.checkPassword(password, "administrator")){
                 return true;
             }
             else{

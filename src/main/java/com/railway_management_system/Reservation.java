@@ -5,12 +5,8 @@
  */
 package com.railway_management_system;
 
-import java.awt.event.WindowEvent;
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import javax.swing.JFrame;
 
 /**
  *
@@ -29,6 +25,10 @@ public class Reservation extends javax.swing.JFrame {
     private String timeslot;
     General_Ticket ticket;
     private Calendar time = Calendar.getInstance();
+    boolean isAdmin = false;
+    boolean checkAvail = false;
+    PassengerMainGUI pas_inst;
+    AdminMainGUI inst;
 
     /**
      * Creates new form Reservation
@@ -36,10 +36,18 @@ public class Reservation extends javax.swing.JFrame {
     public Reservation() {
         initComponents();
     }
-    public Reservation(String username) {
+    public Reservation(String username, AdminMainGUI inst, boolean isAdmin) {
         this();
         this.username = username;
+        this.inst = inst;
         jTextField4.setText(username);
+        this.isAdmin = true;
+    }
+    
+    public Reservation(String username, PassengerMainGUI pas_inst) {
+        this();
+        this.isAdmin = false;
+        this.pas_inst = pas_inst;
     }
 
     /**
@@ -434,6 +442,21 @@ public class Reservation extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jTextField1ActionPerformed(evt);
+        jTextField2ActionPerformed(evt);
+        jTextField3ActionPerformed(evt);        
+        
+        if(checkAvail){
+            DB_connection connection = new DB_connection();
+            DB_connection.Make_Reservation booking = connection.new Make_Reservation();
+            boolean whatToDoNext = booking.checkPriorityConflict(source, destination, seatCount);
+            if (!whatToDoNext) {
+                jLabel7.setText("Sorry... All seats are reserved.");
+                jDialog1.setVisible(true);
+                return;
+            }
+        }
+
         //get general price corresponding to the source and destination from the route table
            
         //connect to route table
@@ -441,10 +464,7 @@ public class Reservation extends javax.swing.JFrame {
         DB_connection.Make_Reservation booking = connection.new Make_Reservation();
         //boolean status = booking.reserve(username, date, seatCount, source, destination);
         
-        
-        jTextField1ActionPerformed(evt);
-        jTextField2ActionPerformed(evt);
-        jTextField3ActionPerformed(evt);
+      
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         date = formatter.format(jDateChooser1.getDate());
         
@@ -478,6 +498,7 @@ public class Reservation extends javax.swing.JFrame {
                 time.set(Calendar.HOUR, 10);
                 time.set(Calendar.MINUTE, 00);
                 time.set(Calendar.SECOND, 00);
+                checkAvail = true;
                 break;
                 
             case "Noon":
@@ -529,6 +550,12 @@ public class Reservation extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if (isAdmin) {
+            inst.setVisible(true);
+        }
+        else{
+            pas_inst.setVisible(true);
+        }
         dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 

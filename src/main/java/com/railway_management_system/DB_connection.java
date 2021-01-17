@@ -10,8 +10,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,6 +54,8 @@ public class DB_connection {
             Statement statement = establishConnection();
             int rows = statement.executeUpdate(query);
             if (rows > 0) {
+                Handle_Priority priority = new Handle_Priority();
+                priority.occupyPriority(username);
                 return true;
             }
             else{
@@ -89,7 +93,7 @@ public class DB_connection {
     }
     
     protected boolean registerPassenger(String fname, String lname, String mobNo, String id, String email, 
-            String uname, String password, boolean isPriority, double credit ){
+        String uname, String password, boolean isPriority, double credit ){
         String tableRef = "insert into `railway_management_system`.`passenger`(`username`, `password`, "
                 + "`email`, `mobile_no`, `credit_available`, `isPriorityPassenger`, `f_name`, `l_name`)";
         String values = "values (\"" + uname + "\", \"" + password + "\", \"" + email + "\", \"" + mobNo 
@@ -104,6 +108,11 @@ public class DB_connection {
             statement.executeUpdate(tableRef + values);
             System.err.println(tableRef_1 + values_2);
             statement.executeUpdate(tableRef_1 + values_2);
+            
+            if (isPriority) {
+                Handle_Priority priority = new Handle_Priority();
+                priority.occupyPriority(uname);
+            }
             return false;
         }
         catch(SQLException e){
@@ -416,6 +425,45 @@ public class DB_connection {
                 }
                             
         }
+                public void updateTrain(){
+            try {
+                String query = "UPDATE `train` SET available_capacity = total_capacity - (SELECT COUNT(*) FROM `priority_ticket`)";
+                Statement statament = establishConnection();
+                statament.executeUpdate(query);
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                }
+                
+                public boolean checkPriorityConflict(String Source, String destination, int count){                    
+            try {
+                String info_from_route_query = "SELECT route_id FROM railway_management_system.route where `source` = \"" + source + "\" and `destination` = \"" + destination + "\";";
+                Statement statement = establishConnection();
+                ResultSet rs = statement.executeQuery(info_from_route_query);
+                rs.next();
+                String routeID = rs.getString("route_id");
+                updateTrain();
+                
+                String query = "select train_id from `trains_in_a_given_route` where route_id = " + route_id + ";";
+                rs = statement.executeQuery(query);
+                rs.next();
+                String trainID = rs.getString("train_id");
+                
+                String query0 = "SELECT available_capacity FROM `train` WHERE train_id = \"" + trainID + ";";
+                rs = statement.executeQuery(query0);
+                rs.next();
+                int occupacity = rs.getInt("available_capacity");
+                if (count < occupacity) {
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+                }
         
     }
     
@@ -482,6 +530,19 @@ public class DB_connection {
             
             
         }
+        
+        protected void removeUsersWhoCancelledReservations(){
+            try {
+                String query = "DELETE FROM `attendance` WHERE `ticket_id` = (SELECT `ticket_id` FROM `cancel_reservation`);";
+                
+                Statement statement = establishConnection();
+                System.out.println(query);
+                statement.executeUpdate(query);
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
     }
     
     public class Handle_Record{
@@ -497,13 +558,125 @@ public class DB_connection {
         
         public int insertRecord(){
             try {
-                String query = "INSERT INTO `manipulates` (`username`, `date`, `note`, `administrator_id_username_id_no`, `administrator_id_username_administrator_id_no`) VALUES ('test2', '2021-01-17', '" + note + "');";
+                String query = "INSERT INTO `manipulates` (`username`, `date`, `note`) VALUES ('" + username + "', '" + date + "', '" + note + "');";
                 Statement statement = establishConnection();
+                System.out.println(query);
                 int count = statement.executeUpdate(query);
                 return count;
             } catch (SQLException ex) {
                 Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
                 return 0;
+            }
+        }
+        
+        
+    }
+    public class Priority_Reservation{
+            String username;
+            int ticket_id = -1;
+            public Priority_Reservation(String username){
+                this.username = username;
+            }
+            
+            public boolean cancelReservation(){
+                try {
+                    //get ticket_id from `priority_ticket` table corresponding to the username
+                    String query = "SELECT ticket_id FROM `priority_ticket` WHERE username = \"" + username + "\"";
+                    Statement statement = establishConnection();
+                    ResultSet rs = statement.executeQuery(query);
+                    rs.next();
+                    
+                    ticket_id = rs.getInt("ticket_id");
+                    if(ticket_id != -1){
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                } catch (SQLException ex) {
+                    System.err.println("Not priority user...");
+                    return false;
+                }
+            }
+        }
+    
+    public class Handle_Timetable{
+        String arrival;
+        String departure;
+        String timeSlot;
+        String trainID;
+        String routeID;
+        
+        public Handle_Timetable(String arrival, String departure, String timeSlot, String routeID){
+            this.arrival = arrival;
+            this.departure = departure;
+            this.routeID = routeID;
+            this.timeSlot = timeSlot;
+            this.trainID = trainID;
+        }
+        
+        public Handle_Timetable(String timeSlot){
+            this.timeSlot = timeSlot;
+        }
+        
+        public int insert(){
+            try {
+                String query = "INSERT INTO `timetable` (`time_slot_id`, `arrival`, `departure`, `train_id`, `route_id`) VALUES ('" + timeSlot + "', '" + arrival + "', '" + departure + "', '" + trainID + "', '" + routeID + "');";
+                
+                Statement statement = establishConnection();
+                int rows = statement.executeUpdate(query);
+                return rows;
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+                return 0;
+            }
+        }
+        
+        public int delete(){
+            try {
+                String query = "DELETE FROM `timetable` WHERE `time_slot_id` = '" + timeSlot + ";";
+                Statement statement = establishConnection();
+                int rows = statement.executeUpdate(query);
+                return rows;
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+                return 0;
+            }
+        }
+        
+        public int update(){
+            try {
+                String query = "UPDATE `timetable` SET (`arrival` = '" + arrival + "', " + " `departure` = '" + departure + "', `train_id` = '" + trainID +  ", `route_id` = '" + routeID + "') WHERE `time_slot_id` = " + timeSlot + ";";
+                
+                Statement statement = establishConnection();
+                int rows = statement.executeUpdate(query);
+                return rows;
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+                return 0;
+            }
+        }
+    }
+    
+    public class Handle_Priority{
+        public void occupyPriority(String username){
+            try {
+                Date Today = Calendar.getInstance().getTime();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String today = simpleDateFormat.format(Today);
+                
+                int month = Today.getMonth();
+                int day = Today.getDay();
+                int year = Today.getYear();
+                
+                String renewal = year + "-" + (month+1) + "-" + (day-1);
+                
+                String query = "INSERT INTO `priority_ticket` (`ticket_id`, `date`, `payment_method`, `num_of_times_conditions_violated`, `date_of_renewal`, `username`) VALUES (NULL, '" + today + "', 'card', '0', '" + renewal + "', '" + username + "');";
+                Statement statement = establishConnection();
+                
+                statement.executeUpdate(query);
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

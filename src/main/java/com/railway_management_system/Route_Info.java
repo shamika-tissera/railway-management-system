@@ -20,7 +20,8 @@ import javax.swing.table.DefaultTableModel;
  * @author Sajee Thamanga
  */
 public class Route_Info extends javax.swing.JFrame {
-
+    String username;
+    AdminMainGUI inst;
     String dbUserName = "root";
     String dbPassword = "";
     String dbServerUrl = "jdbc:mysql://localhost:3306/railway_management_system?autoReconnect=true&useSSL=false";
@@ -46,6 +47,11 @@ public class Route_Info extends javax.swing.JFrame {
         connx = databaseConnection();
         //populating jTable
         populateJTableFromsqlDatabase();
+    }
+    public Route_Info(String username, AdminMainGUI inst) {
+        this();
+        this.username = username;
+        this.inst = inst;
     }
     
      public Connection databaseConnection() {
@@ -150,6 +156,7 @@ public class Route_Info extends javax.swing.JFrame {
         txtPPrice = new javax.swing.JTextField();
         txtDistance = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -325,6 +332,13 @@ public class Route_Info extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("BACK");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -342,6 +356,8 @@ public class Route_Info extends javax.swing.JFrame {
                 .addContainerGap(54, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addGap(26, 26, 26))
         );
@@ -355,7 +371,9 @@ public class Route_Info extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -493,6 +511,12 @@ public class Route_Info extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtrouteIDActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        AdminMainGUI returns = new AdminMainGUI();
+        returns.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -533,6 +557,7 @@ public class Route_Info extends javax.swing.JFrame {
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

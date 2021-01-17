@@ -13,14 +13,22 @@ import java.util.logging.Logger;
  * @author Shamika Tissera
  */
 public class PassengerRegistrationGUI extends UserRegistrationGUI {
-
+    String username;
+    AdminMainGUI inst;
     private boolean is_Priority_Passenger;
+    private boolean isAdmin = false;
     /**
      * Creates new form PassengerRegistrationGUI
      */
     public PassengerRegistrationGUI() {
         super();
         initComponents();
+    }
+    public PassengerRegistrationGUI(boolean isAdmin, String username, AdminMainGUI inst) {
+        this();
+        this.isAdmin = isAdmin;
+        this.username = username;
+        this.inst = inst;
     }
     
     public PassengerRegistrationGUI(java.awt.event.ActionEvent evt) {
@@ -38,10 +46,42 @@ public class PassengerRegistrationGUI extends UserRegistrationGUI {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
+        jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         isPriorityPassenger = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         register_button = new javax.swing.JButton();
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setText("Please fill all details");
+
+        jButton1.setText("OK");
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialog1Layout.createSequentialGroup()
+                        .addGap(104, 104, 104)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jDialog1Layout.createSequentialGroup()
+                        .addGap(155, 155, 155)
+                        .addComponent(jButton1)))
+                .addContainerGap(110, Short.MAX_VALUE))
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addGap(75, 75, 75)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54)
+                .addComponent(jButton1)
+                .addContainerGap(65, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -119,6 +159,10 @@ public class PassengerRegistrationGUI extends UserRegistrationGUI {
     private void register_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_register_buttonActionPerformed
         performAction(evt);
         isPriorityPassengerActionPerformed(evt);
+        if (uname.equals("")) {
+            jDialog1.setVisible(true);
+        }
+        else{
         Passenger passenger = new Passenger();
         passenger.setFirst_name(firstName);
         passenger.setLast_name(lastName);
@@ -129,6 +173,12 @@ public class PassengerRegistrationGUI extends UserRegistrationGUI {
         passenger.setMobile(mobno);
         passenger.setIsPriorityPassenger(is_Priority_Passenger);
         Registration(passenger);
+        }
+        if(isAdmin){
+        AdminMainGUI returns = new AdminMainGUI(username);
+        returns.setVisible(true);
+        dispose();
+        }
     }//GEN-LAST:event_register_buttonActionPerformed
 
     /**
@@ -169,8 +219,11 @@ public class PassengerRegistrationGUI extends UserRegistrationGUI {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox isPriorityPassenger;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JButton register_button;
     // End of variables declaration//GEN-END:variables
 }

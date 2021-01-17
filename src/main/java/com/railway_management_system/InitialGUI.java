@@ -13,6 +13,7 @@ package com.railway_management_system;
 public class InitialGUI extends javax.swing.JFrame {
     String username;
     String password;
+    private AdminMainGUI enter;
     
     /**
      * Creates new form InitialGUI
@@ -164,6 +165,7 @@ public class InitialGUI extends javax.swing.JFrame {
             System.out.println("Login successful");
             AdminMainGUI enter = new AdminMainGUI(username);
             enter.setVisible(true);
+            dispose();
        } 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -172,7 +174,7 @@ public class InitialGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_unameActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        UserRegistrationGUI newPassenger = new UserRegistrationGUI();
+        PassengerRegistrationGUI newPassenger = new PassengerRegistrationGUI();
         newPassenger.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
