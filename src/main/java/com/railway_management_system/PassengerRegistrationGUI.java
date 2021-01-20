@@ -58,6 +58,11 @@ public class PassengerRegistrationGUI extends UserRegistrationGUI {
         jLabel3.setText("Please fill all details");
 
         jButton1.setText("OK");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -137,6 +142,7 @@ public class PassengerRegistrationGUI extends UserRegistrationGUI {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void isPriorityPassengerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isPriorityPassengerActionPerformed
@@ -160,6 +166,7 @@ public class PassengerRegistrationGUI extends UserRegistrationGUI {
         performAction(evt);
         isPriorityPassengerActionPerformed(evt);
         if (uname.equals("")) {
+            jDialog1.pack();
             jDialog1.setVisible(true);
         }
         else{
@@ -180,6 +187,10 @@ public class PassengerRegistrationGUI extends UserRegistrationGUI {
         dispose();
         }
     }//GEN-LAST:event_register_buttonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jDialog1.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

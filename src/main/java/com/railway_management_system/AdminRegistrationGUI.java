@@ -62,6 +62,7 @@ public class AdminRegistrationGUI extends UserRegistrationGUI {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void register_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_register_buttonActionPerformed
@@ -76,8 +77,7 @@ public class AdminRegistrationGUI extends UserRegistrationGUI {
         admin.setMobile(mobno);
         Registration(admin);
         
-        AdminMainGUI returns = new AdminMainGUI(username);
-        returns.setVisible(true);
+        inst.setVisible(true);
         dispose();
     }//GEN-LAST:event_register_buttonActionPerformed
 

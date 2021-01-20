@@ -5,6 +5,7 @@
  */
 package com.railway_management_system;
 
+import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -24,6 +25,15 @@ import java.util.logging.Logger;
 public class DB_connection {
     public DB_connection(){
         establishConnection();
+        initLog();
+    }
+    
+    public void initLog(){
+        try{    
+           FileWriter fw=new FileWriter("testout.txt");    
+           fw.write("Welcome to javaTpoint.");    
+           fw.close();    
+          }catch(Exception e){System.out.println(e);}
     }
     private Statement establishConnection(){
         
@@ -73,8 +83,8 @@ public class DB_connection {
         String values = " values (\"" + id_no + "\", \"" + password + "\", " + "\"" 
                 + fname + "\", \"" + lname + "\", \"" + email + "\" );";
         
-        String tableRef_1 = "insert into `administrator_id_username`(`id_no`, `username`, `administrator_id_no`)";
-        String values_2 = " values (\"" + id_no + "\", \"" + uname + "\", \"" + id_no + "\");";
+        String tableRef_1 = "insert into `administrator_id_username`(`id_no`, `username`)";
+        String values_2 = " values (\"" + id_no + "\", \"" + uname + "\");";
         
         try{
             Statement statement = establishConnection();
@@ -221,6 +231,8 @@ public class DB_connection {
         int s_class;
         int t_class;
         
+        public Handle_Train(){}
+        
         public Handle_Train(String TrainID, int totalCapacity, int availableCapacity, String routeID, int f_class, int s_class, int t_class){
             this.TrainID = TrainID;
             this.availableCapacity = availableCapacity;
@@ -244,13 +256,27 @@ public class DB_connection {
             }
         }
         
-        protected int updateInfo(){
+        public int updateInfo(){
             try {
-                String updateSQLQuery = "UPDATE `train` SET `total_capacity`=" + totalCapacity +  ",`available_capacity`= " + availableCapacity + ",`route_id`= " + routeID + ",`1st_class`= " + f_class + ", `2nd_class`= " + s_class + ", `3rd_class`= " + t_class + "WHERE `train_id` = '" + TrainID + "';";
+                String updateSQLQuery = "UPDATE `train` SET `total_capacity` = '" + totalCapacity + "', `available_capacity` = '" + availableCapacity + "', `1st_class` = '" + f_class + "', `2nd_class` = '" + s_class + "', `3rd_class` = '" + t_class + "' WHERE `train`.`train_id` = '" + TrainID + "';";
                 
                 Statement statement = establishConnection();
+                System.out.println(updateSQLQuery);
                 int count = statement.executeUpdate(updateSQLQuery);
                 return count;
+            } catch (SQLException ex) {
+                Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
+                return 0;
+            }
+        }
+        
+        public int deleteInfo(String Train_ID){
+            try {
+                String query = "DELETE FROM `train` WHERE `train`.`train_id` = \'" + Train_ID + "\'";
+                System.out.println(query);
+                Statement statement = establishConnection();
+                int rows = statement.executeUpdate(query);
+                return rows;
             } catch (SQLException ex) {
                 Logger.getLogger(DB_connection.class.getName()).log(Level.SEVERE, null, ex);
                 return 0;
@@ -263,7 +289,7 @@ public class DB_connection {
         String route_id = null;
         String train_id = null;
         String timetable_id = null;
-        String username;
+        String username = null;
         int capacity = 0;
         double price;
         String date;
@@ -275,7 +301,7 @@ public class DB_connection {
                 //get ticket_id
                 //make sure username is defined in the passenger table
                 System.out.println("date : " + date);
-                String query = "SELECT ticket_id FROM `general_ticket` WHERE username = \"" + username + "\" and date = \"" + date + "\"";
+                String query = "SELECT ticket_id FROM `general_ticket` WHERE date = \"" + date + "\"";
                 Statement statement = establishConnection();
                 ResultSet rs = statement.executeQuery(query);
                 rs.next();
@@ -296,7 +322,7 @@ public class DB_connection {
         private void updateDB(Ticket ticket){
             try {
                 System.out.println("username : " + username);
-                String query = "INSERT INTO `general_ticket` (`ticket_id`, `payment_method`, `source`, `destination`, `price`, `date`, `route_route_id`, `username`) VALUES (NULL, 'card', '" + source + "', '" + destination + "', '" + price + "', '" + date + "', '" + route_id + "', '" + username + "');";
+                String query = "INSERT INTO `general_ticket` (`ticket_id`, `payment_method`, `source`, `destination`, `price`, `date`, `route_route_id`) VALUES (NULL, 'card', '" + source + "', '" + destination + "', '" + price + "', '" + date + "', '" + route_id + "');";
                 Statement statement = establishConnection();
                 System.out.println(query);
                 statement.executeUpdate(query);
@@ -306,7 +332,7 @@ public class DB_connection {
         }
         
         private String getID(String username){          
-            
+            username = "shamika_as_passenger";
             try {
                                
                 String query = "SELECT `id_no` FROM `passengerid-username` WHERE `username` = \"" + username + "\"";
@@ -357,7 +383,7 @@ public class DB_connection {
                 result = statement.executeQuery(info_from_train_query);
                 result.next();
                 capacity = result.getInt("total_capacity");
-                String update_reservation_query = "INSERT INTO `reservation` (`date`, `capacity`, `bookings`, `timetable_time_slot_id`, `timetable_train_id`, `timetable_train_train_id`, `timetable_route_route_id`) VALUES ('" + date + "', '" + capacity + "', '" + count + "', '" + timetable_id + "', NULL, NULL, NULL);";
+                String update_reservation_query = "INSERT INTO `reservation` (`date`, `capacity`, `bookings`) VALUES ('" + date + "', '" + capacity + "', '" + count + "');";
                 //update timetable_time_slot_id
                 System.out.println(update_reservation_query);
                 statement.executeUpdate(update_reservation_query);
@@ -415,6 +441,9 @@ public class DB_connection {
                         String id_no = getID(username);
                         ticket = new General_Ticket(id_no, route_id, date, source, destination, price);
                         updateDB(ticket);
+                        
+                        
+                        Reservation.ticketID = statement.executeQuery("SELECT ticket_id FROM `general_ticket` ORDER BY `ticket_id` DESC LIMIT 1;").getInt("ticket_id");
                         return true;
                     }
                     

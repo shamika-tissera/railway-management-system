@@ -14,8 +14,8 @@ public class Time {
     private String TimeSlotID;
     private String TrainID;
     private String RouteID;
-    private Time Arrival;
-    private Time Departure;
+    private String Arrival;
+    private String Departure;
 
 //    public Time(String TimeSlotID, String TrainID, String RouteID, Time Arrival, Time Departure) {
 //        this.TimeSlotID = TimeSlotID;
@@ -49,19 +49,19 @@ public class Time {
         this.RouteID = RouteID;
     }
 
-    public Time getArrival() {
+    public String getArrival() {
         return Arrival;
     }
 
-    public void setArrival(Time Arrival) {
+    public void setArrival(String Arrival) {
         this.Arrival = Arrival;
     }
 
-    public Time getDeparture() {
+    public String getDeparture() {
         return Departure;
     }
 
-    public void setDeparture(Time Departure) {
+    public void setDeparture(String Departure) {
         this.Departure = Departure;
     }
     
